@@ -18,7 +18,7 @@ include('header.php');
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Enter your password">
 			</div>
-			<button type="submit" class="btn btn-default">Submit</button>
+			<button type="submit" class="btn btn-default">Submit <a href="welcome"> </button>
 		</form>
 	</div>
 </div>
