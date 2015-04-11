@@ -1,12 +1,27 @@
 <?php
-include('header.php');
-?>
+require 'Slim/Slim.php';
 
-<div id="main" class="row">
-	<a href="login.php" id="login">Login</a>
-	<a href="register.php" id="register">Register</a>
-</div>
+\Slim\Slim::registerAutoloader();
 
-<?php
-include('footer.php');
+$app = new \Slim\Slim(array(
+	'debug'=>true
+));
+
+$app->hook('slim.before', function () use ($app) {
+    $app->view()->appendData(array('baseUrl' => 'http://localhost/hireahusky'));
+});
+
+$app->get('/', function () use ($app) {
+    $app->render('index.php');
+});
+
+$app->get('/login', function () use ($app) {
+    $app->render('login.php');
+});
+
+$app->post('/login', function () use ($app){
+
+});
+
+$app->run();
 ?>
