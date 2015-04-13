@@ -8,8 +8,24 @@ $app = new \Slim\Slim(array(
 ));
 
 $app->hook('slim.before', function () use ($app) {
-    $app->view()->appendData(array('baseUrl' => 'http://localhost/hireahusky'));
+	$user = null;
+    if( isset($_SESSION['user']) ){
+    	$user = $_SESSION['user'];
+    }
+    $app->view()->setData(array('baseUrl' => 'http://localhost/hireahusky', 'user' => $user));
 });
+
+$app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'testsecret')));
+
+function authenticate(){
+	require('lib/database.php');
+	$app = \Slim\Slim::getInstance();
+	if( !isset($_SESSION['user']) ){
+		$_SESSION['urlRedirect'] = $app->request()->getPathInfo();
+		$app->flash('error', 'Login required');
+		$app->redirect('http://localhost/hireahusky/login');
+	}
+}
 
 $app->get('/', function () use ($app) {
     $app->render('index.php');
@@ -19,8 +35,38 @@ $app->get('/login', function () use ($app) {
     $app->render('login.php');
 });
 
-$app->post('/login', function () use ($app){
+$app->get('/logout', function () use ($app){
+	unset($_SESSION['user']);
+	$app->view()->setData('user', null);
+	$app->render('logout.php');
+});
 
+$app->post('/login', function () use ($app){
+	$username = $app->request()->post('username');
+	$password = $app->request()->post('password');
+
+	$errors = array();
+	//validate username and password and check if they're in database
+	/*if(  ){
+		$errors['username'] = 'Username is not valid';
+		$app->flash('errors',$errors);
+		$app->redirect('/login');
+	} else if(  ){
+		$errors['password'] = 'Password is not valid';
+		$app->flash('errors',$errors);
+		$app->redirect('/login');
+	}*/
+	$_SESSION['user'] = $username;
+	if( isset($_SESSION['redirect']) ){
+		$tmp = $_SESSION['redirect'];
+		unset($_SESSION['redirect']);
+		$app->redirect($tmp);
+	}
+	$app->redirect('http://localhost/hireahusky/');
+});
+
+$app->get('/private', 'authenticate', function() use ($app){
+	echo 'hi';
 });
 
 $app->run();

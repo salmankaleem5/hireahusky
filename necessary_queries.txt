@@ -1,0 +1,4 @@
+Reference for what queries are needed
+
+Login screen
+Query to retrieve password for a given user. 

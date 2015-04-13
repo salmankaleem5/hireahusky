@@ -1,8 +1,4 @@
 <?php
-if( isset($_POST['username']) && isset($_POST['password']) ){
-	require('../lib/database.php');
-}
-//require($this->data['baseUrl'].'/lib/database.php');
 include('header.php');
 ?>
 
@@ -17,7 +13,7 @@ include('header.php');
 				<input type="password" name="password" class="form-control" placeholder="Enter your password">
 			</div>
 			<input type="hidden" name="login" value=""> <!--value will be 1 if logging in-->
-			<p><button id="login_button" type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button></p>
+			<p><input id="login_button" type="submit" class="btn btn-primary btn-lg btn-block" value="Sign in"></p>
 			<p>Forgot your password? | Need to sign up?</p>
 		</form>
 	</div>
