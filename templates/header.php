@@ -16,6 +16,9 @@
 			<div class="navbar-header"><a class="navbar-brand" href="<?php echo $this->data['baseUrl']; ?>">Hire a Husky</a></div>
 
 		    <div class="collapse navbar-collapse">
+		      <ul class="nav navbar-nav">
+		      	<li><a href="<?php echo $this->data['baseUrl'].'/private'; ?>">Private page</a></li>
+		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
 		      <?php
 		      	if( isset($this->data['user']) && !is_null($this->data['user']) ){
@@ -32,4 +35,4 @@
 	    </div>
 	</div>
 </nav>
-<div class="container">
+<div class="container" role="main">
