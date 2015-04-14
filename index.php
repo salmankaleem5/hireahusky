@@ -31,10 +31,8 @@ function login($UName, $UPasswd, $result){
 	require('lib/database.php');
 	$sql = "SELECT UName FROM user WHERE UName =".$UName;
 	$result = $mysql->query($sql);
-	vardump($result);// added-LA
-	if($UName == $result) {//does user match what we got -LA
+	if($UName == $result) {
 		$sql = "SELECT UPasswd FROM user WHERE UName == " . $UName;
-		vardump($result);// added-LA
 		$result = $mysql->query($sql);
 		if($UPasswd == $result){
 			return 0;
