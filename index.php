@@ -29,10 +29,9 @@ function authenticate(){
 
 function login($UName, $UPasswd, $result){
 	require('lib/database.php');
-	$sql = "SELECT UName FROM user WHERE UName = ".$UName;
-	var_dump($sql);//added -LA
+	$sql = "SELECT UName FROM user WHERE UName =".$UName;
 	$result = $mysql->query($sql);
-	var_dump($result);// added-LA
+	vardump($result);// added-LA
 	if($UName == $result) {//does user match what we got -LA
 		$sql = "SELECT UPasswd FROM user WHERE UName == " . $UName;
 		vardump($result);// added-LA
