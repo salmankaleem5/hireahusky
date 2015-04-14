@@ -27,6 +27,23 @@ function authenticate(){
 	}
 }
 
+function login($UName, $UPasswd, $result){
+	require('lib/database.php');
+	$sql = "SELECT UName FROM user WHERE UName =".$UName;
+	$result = $mysql->query($sql);
+	if($UName == $result) {
+		$sql = "SELECT UPasswd FROM user WHERE UName == " . $UName;
+		$result = $mysql->query($sql);
+		if($UPasswd == $result){
+			return 0;
+		}else{
+			return 1; // UPasswd doesn't match
+		}
+	}else{
+		return 2; //UName doesn't exist.
+	}
+}
+
 $app->get('/', function () use ($app) {
     $app->render('index.php');
 });
@@ -44,18 +61,21 @@ $app->get('/logout', function () use ($app){
 $app->post('/login', function () use ($app){
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
-
+	$out = '';
+	$result = login($username, $password, $out);
+	var_dump($out);
 	$errors = array();
 	//validate username and password and check if they're in database
-	/*if(  ){
+	
+	if($result==2){
 		$errors['username'] = 'Username is not valid';
 		$app->flash('errors',$errors);
 		$app->redirect('/login');
-	} else if(  ){
+	}else if ($result ==1){
 		$errors['password'] = 'Password is not valid';
 		$app->flash('errors',$errors);
 		$app->redirect('/login');
-	}*/
+	}
 	$_SESSION['user'] = $username;
 	if( isset($_SESSION['redirect']) ){
 		$tmp = $_SESSION['redirect'];
