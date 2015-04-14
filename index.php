@@ -18,10 +18,10 @@ $app->hook('slim.before', function () use ($app) {
 $app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'testsecret')));
 
 function authenticate(){
-	require('lib/database.php');
 	$app = \Slim\Slim::getInstance();
 	if( !isset($_SESSION['user']) ){
-		$_SESSION['urlRedirect'] = $app->request()->getPathInfo();
+		$request = $app->request();
+		$_SESSION['urlRedirect'] = $request->getRootUri().$request->getPathInfo();
 		$app->flash('error', 'Login required');
 		$app->redirect('http://localhost/hireahusky/login');
 	}
@@ -64,7 +64,7 @@ $app->post('/login', function () use ($app){
 	$out = '';
 	$result = login($username, $password, $out);
 	var_dump($out);
-	$errors = array();
+	require('lib/database.php');
 	//validate username and password and check if they're in database
 	
 	if($result==2){
@@ -77,12 +77,47 @@ $app->post('/login', function () use ($app){
 		$app->redirect('/login');
 	}
 	$_SESSION['user'] = $username;
-	if( isset($_SESSION['redirect']) ){
-		$tmp = $_SESSION['redirect'];
-		unset($_SESSION['redirect']);
+	if( isset($_SESSION['urlRedirect']) ){
+		$tmp = $_SESSION['urlRedirect'];
+		unset($_SESSION['urlRedirect']);
 		$app->redirect($tmp);
 	}
 	$app->redirect('http://localhost/hireahusky/');
+});
+
+$app->get('/signup', function () use ($app){
+	$app->render('signup.php');
+});
+
+$app->post('/signup', function () use ($app){
+	$email = $app->request()->post('email');
+	$fname = $app->request()->post('fname');
+	$lname = $app->request()->post('lname');
+	$username = $app->request()->post('username');
+	$password = $app->request()->post('password');
+
+	$errors = array();
+
+	require('lib/database.php');
+
+	//validate all info above and add user
+	/*if(  ){
+		$errors['username'] = 'Username is not valid';
+		$app->flash('errors',$errors);
+		$app->redirect('/login');
+	} else if(  ){
+		$errors['password'] = 'Password is not valid';
+		$app->flash('errors',$errors);
+		$app->redirect('/login');
+	}*/
+
+	$_SESSION['user'] = $username;
+	/*if( isset($_SESSION['urlRedirect']) ){
+		$tmp = $_SESSION['urlRedirect'];
+		unset($_SESSION['urlRedirect']);
+		$app->redirect($tmp);
+	}*/
+	$app->redirect('http://localhost/hireahusky/'); // redirect to account page?
 });
 
 $app->get('/private', 'authenticate', function() use ($app){
