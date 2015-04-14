@@ -27,12 +27,16 @@ function authenticate(){
 	}
 }
 
-function login($UName, $UPasswd, $result){
+function login($UName, $UPasswd){
 	require('lib/database.php');
-	$sql = "SELECT UName FROM user WHERE UName =".$UName;
+	$sql = 'SELECT UName FROM user WHERE UName = "'.$UName.'"';
+	echo('query = ' .$sql);
 	$result = $mysql->query($sql);
-	if($UName == $result) {
-		$sql = "SELECT UPasswd FROM user WHERE UName == " . $UName;
+	echo('\nresult = ');
+	var_dump($result);
+	if($UName == $result->) {
+		$sql = ('SELECT UPasswd FROM user WHERE UName == "' .$UName. '"');
+		var_dump($sql);
 		$result = $mysql->query($sql);
 		if($UPasswd == $result){
 			return 0;
@@ -61,28 +65,32 @@ $app->get('/logout', function () use ($app){
 $app->post('/login', function () use ($app){
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
-	$out = '';
-	$result = login($username, $password, $out);
-	var_dump($out);
+	$result = login($username, $password);
 	require('lib/database.php');
 	//validate username and password and check if they're in database
 	
 	if($result==2){
 		$errors['username'] = 'Username is not valid';
 		$app->flash('errors',$errors);
-		$app->redirect('/login');
+		//$app->redirect('/login');
+		echo('wrong user');
 	}else if ($result ==1){
 		$errors['password'] = 'Password is not valid';
 		$app->flash('errors',$errors);
-		$app->redirect('/login');
+		//$app->redirect('/login');
+		echo('wrong password');
+
+	}else{
+		echo('success');
+
+		$_SESSION['user'] = $username;
+		if( isset($_SESSION['urlRedirect']) ){
+			$tmp = $_SESSION['urlRedirect'];
+			unset($_SESSION['urlRedirect']);
+			$app->redirect($tmp);
+		}
+		//$app->redirect('http://localhost/hireahusky/');
 	}
-	$_SESSION['user'] = $username;
-	if( isset($_SESSION['urlRedirect']) ){
-		$tmp = $_SESSION['urlRedirect'];
-		unset($_SESSION['urlRedirect']);
-		$app->redirect($tmp);
-	}
-	$app->redirect('http://localhost/hireahusky/');
 });
 
 $app->get('/signup', function () use ($app){
