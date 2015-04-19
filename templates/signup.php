@@ -26,6 +26,7 @@ if( isset($flash['signup']) ){
 				<input type="password" name="password" class="form-control" placeholder="Enter your password">
 			</div>
 			<p><input id="signup_button" type="submit" class="btn btn-primary btn-lg btn-block" value="Sign up"></p>
+			<p>Forgot your password?</p>
 		</form>
 	</div>
 </div>

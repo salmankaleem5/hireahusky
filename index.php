@@ -62,6 +62,7 @@ $app->get('/logout', function () use ($app){
 	$app->render('logout.php');
 });
 
+//Cases: Empty username or password, username invalid or password doesn't match
 $app->post('/login', function () use ($app){
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
@@ -136,6 +137,7 @@ $app->get('/signup', function () use ($app){
 	$app->render('signup.php');
 });
 
+// Cases: Duplicate username or email
 $app->post('/signup', function () use ($app){
 	$email = $app->request()->post('email');
 	$fname = $app->request()->post('fname');
@@ -146,6 +148,24 @@ $app->post('/signup', function () use ($app){
 	if( !empty($email) && !empty($fname) && !empty($lname) && !empty($username) && !empty($password) ){
 		require('lib/database.php');
 
+		$duplicateUNameSql = "SELECT UName FROM user WHERE UName='$username'";
+		if( $result = $mysql->query($duplicateUNameSql) ){
+			$rowCount = $result->num_rows;
+			if( $rowCount != 0 ){
+				$app->flash('signup', 'This username is already in use, please choose a different one');			
+				$app->redirect('http://localhost/hireahusky/signup');				
+			}
+		}
+		
+		$duplicateEmailSql = "SELECT UEmail FROM user WHERE UEmail='$email'";
+		if( $result = $mysql->query($duplicateEmailSql) ){
+			$rowCount = $result->num_rows;
+			if( $rowCount != 0 ){
+				$app->flash('signup', 'This email address already exists, please choose a different one or recover your password');			
+				$app->redirect('http://localhost/hireahusky/signup');				
+			}
+		}
+		
 		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email'";
 		if( $result = $mysql->query($sql) ){
 			$_SESSION['user'] = $username;
@@ -156,9 +176,8 @@ $app->post('/signup', function () use ($app){
 			}
 			$app->redirect('http://localhost/hireahusky/');
 		} else {
-			var_dump($result);
-			/*$app->flash('signup', 'There was an error, please try again');			
-			$app->redirect('http://localhost/hireahusky/signup');*/
+			$app->flash('signup', 'There was an error, please try again');			
+			$app->redirect('http://localhost/hireahusky/signup');
 		}
 	} else {
 		$app->flash('signup', 'Please fill out all fields');			
