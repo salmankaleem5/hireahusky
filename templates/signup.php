@@ -1,5 +1,9 @@
 <?php
 include('header.php');
+$flash = $this->data['flash'];
+if( isset($flash['signup']) ){
+	echo $flash['signup'];
+}
 ?>
 
 <div id="main" class="row">

@@ -34,7 +34,7 @@ function login($UName, $UPasswd){
 	$result = $mysql->query($sql);
 	echo('\nresult = ');
 	var_dump($result);
-	if($UName == $result->) {
+	if($UName == $result) {
 		$sql = ('SELECT UPasswd FROM user WHERE UName == "' .$UName. '"');
 		var_dump($sql);
 		$result = $mysql->query($sql);
@@ -65,9 +65,42 @@ $app->get('/logout', function () use ($app){
 $app->post('/login', function () use ($app){
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
+
+	if( !empty($username) && !empty($password) ){
+		require('lib/database.php');
+
+		$sql = "SELECT UName, UPasswd FROM user WHERE UName='$username' ";
+		if ($result = $mysql->query($sql)) {
+			$numRows = $result->num_rows;
+			if( $numRows == 0 ){ //Username invalid
+				$app->flash('errorMsg', 'Invalid username');
+				$app->redirect('http://localhost/hireahusky/login');
+			}
+			$row = $result->fetch_row();
+
+			$sqlPass = $row[1];
+			if( $password == $sqlPass ){ //Does the input password match the retrieved password
+				$_SESSION['user'] = $username;
+				if( isset($_SESSION['urlRedirect']) ){
+					$tmp = $_SESSION['urlRedirect'];
+					unset($_SESSION['urlRedirect']);
+					$app->redirect($tmp);
+				}
+				$app->redirect('http://localhost/hireahusky/');
+			} else { //Invalid password
+				$app->flash('errorMsg', 'Invalid username or password');
+				$app->redirect('http://localhost/hireahusky/login');
+			}
+		    $result->close();
+		}
+	} else {
+		$app->flash('errorMsg', 'Please enter a username and password');
+		$app->redirect('http://localhost/hireahusky/login');		
+	}
+
+	/*
 	$result = login($username, $password);
-	require('lib/database.php');
-	//validate username and password and check if they're in database
+	validate username and password and check if they're in database
 	
 	if($result==2){
 		$errors['username'] = 'Username is not valid';
@@ -82,15 +115,21 @@ $app->post('/login', function () use ($app){
 
 	}else{
 		echo('success');
-
 		$_SESSION['user'] = $username;
 		if( isset($_SESSION['urlRedirect']) ){
 			$tmp = $_SESSION['urlRedirect'];
 			unset($_SESSION['urlRedirect']);
 			$app->redirect($tmp);
 		}
-		//$app->redirect('http://localhost/hireahusky/');
 	}
+	$_SESSION['user'] = $username;
+	if( isset($_SESSION['urlRedirect']) ){
+		$tmp = $_SESSION['urlRedirect'];
+		unset($_SESSION['urlRedirect']);
+		$app->redirect($tmp);
+	}
+	$app->redirect('http://localhost/hireahusky/');
+	*/
 });
 
 $app->get('/signup', function () use ($app){
@@ -104,28 +143,27 @@ $app->post('/signup', function () use ($app){
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
 
-	$errors = array();
+	if( !empty($email) && !empty($fname) && !empty($lname) && !empty($username) && !empty($password) ){
+		require('lib/database.php');
 
-	require('lib/database.php');
-
-	//validate all info above and add user
-	/*if(  ){
-		$errors['username'] = 'Username is not valid';
-		$app->flash('errors',$errors);
-		$app->redirect('/login');
-	} else if(  ){
-		$errors['password'] = 'Password is not valid';
-		$app->flash('errors',$errors);
-		$app->redirect('/login');
-	}*/
-
-	$_SESSION['user'] = $username;
-	/*if( isset($_SESSION['urlRedirect']) ){
-		$tmp = $_SESSION['urlRedirect'];
-		unset($_SESSION['urlRedirect']);
-		$app->redirect($tmp);
-	}*/
-	$app->redirect('http://localhost/hireahusky/'); // redirect to account page?
+		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email'";
+		if( $result = $mysql->query($sql) ){
+			$_SESSION['user'] = $username;
+			if( isset($_SESSION['urlRedirect']) ){
+				$tmp = $_SESSION['urlRedirect'];
+				unset($_SESSION['urlRedirect']);
+				$app->redirect($tmp);
+			}
+			$app->redirect('http://localhost/hireahusky/');
+		} else {
+			var_dump($result);
+			/*$app->flash('signup', 'There was an error, please try again');			
+			$app->redirect('http://localhost/hireahusky/signup');*/
+		}
+	} else {
+		$app->flash('signup', 'Please fill out all fields');			
+		$app->redirect('http://localhost/hireahusky/signup');
+	}
 });
 
 $app->get('/private', 'authenticate', function() use ($app){
