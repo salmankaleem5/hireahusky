@@ -14,6 +14,7 @@
 		//print $location;
 	}
 	
+	
 	//here I define the names of the fields I am selecting (in the query)
 	$field_array = array( 'JobTitle','CName','JYRSExperience','JCity','StateID');
 	
