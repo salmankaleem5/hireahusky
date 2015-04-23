@@ -65,6 +65,9 @@ $app->get('/test', function () use ($app) {
     $app->render('test.php');
 });
 
+$app->get('/welcome', function () use ($app) {
+    $app->render('welcome.php');
+});
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
