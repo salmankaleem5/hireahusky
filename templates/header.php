@@ -17,7 +17,7 @@
 
 		    <div class="collapse navbar-collapse">
 		      <ul class="nav navbar-nav">
-		      	<li><a href="<?php echo $this->data['baseUrl'].'/private'; ?>">Private page</a></li>
+		      	<li><a href="<?php echo $this->data['baseUrl'].'/account'; ?>">My Account</a></li>
 		      </ul>
 		      <ul class="nav navbar-nav navbar-right">
 		      <?php
