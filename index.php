@@ -52,7 +52,20 @@ $app->get('/', function () use ($app) {
 $app->get('/login', function () use ($app) {
     $app->render('login.php');
 });
+//added for lynn's search.php-----------------------------
+$app->get('/search', function () use ($app) {
+    $app->render('search.php');
+});
 
+$app->get('/job', function () use ($app) {
+    $app->render('job.php');
+});
+
+$app->get('/test', function () use ($app) {
+    $app->render('test.php');
+});
+
+//------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
 	$app->view()->setData('user', null);

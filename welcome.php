@@ -31,6 +31,16 @@ include('header.php');
 	</head>
 <div id="main" class="row">
 
+		<div class="row-fluid">
+
+			<div id="Account" class="span10 menuItem active">
+				<h2>My Account Information:</h2>
+			</div>
+			
+			<div id="Jobs" style="display: none;" class="span9 menuItem">
+				<h2>Jobs I've Applied to:</h2>
+			</div>
+		</div>
 
 </div>
 
