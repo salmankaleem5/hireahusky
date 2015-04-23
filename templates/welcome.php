@@ -46,6 +46,8 @@ include('acctupdt.php');
 							<ul id="welcome-menu" class="nav nav-list">
 								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Account Info</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Jobs</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Resume','menu2');">Resume</a></li>
+
 								<!-- add more list items like the one above -->
 
 							</ul>
@@ -61,6 +63,11 @@ include('acctupdt.php');
 					<div id="Jobs" style="display: none;" class="span9 menuItem">
 						<h2>Jobs I've Applied to:</h2>
 						<?PHP myjobs();?>
+					</div>
+					
+					<div id="Resume" style="display: none;" class="span9 menuItem">
+						<h2>Uploaded Resumes:</h2>
+						<?PHP myresume();?>
 					</div>
 					
 					<!-- add more divs like the one above -->
