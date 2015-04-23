@@ -7,9 +7,13 @@
 	$field_array = array( 'JobTitle','CName','JYRSExperience','JCity','StateID','JDuties');
 	$name_array = array( 'Job Title','Company Name','Req Experience (years)','City','State','Job Description');
 	
-	if(array_key_exists('jobid', $_GET)){
+	/*if(array_key_exists('jobid', $_GET)){
 		$jobid = $_GET['jobid'];
 		//print $jobid;
+	}*/
+
+	if( !empty($id) ){
+		$jobid = $id;
 	}
 	
 	

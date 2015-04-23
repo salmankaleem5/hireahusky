@@ -10,7 +10,11 @@
 			if($j%2 == 0){
 				echo "<tr>";
 				for ($i = 0; $i < count($fields); $i++) {
-					echo '<td>'.$dbField[$fields[$i]].'</td>';
+					if( $i == 0 ){
+						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+					} else {
+						echo '<td>'.$dbField[$fields[$i]].'</td>';	
+					}
     			}
 				echo "</tr>";
 				$j++;
@@ -18,7 +22,11 @@
 			else{
 			echo "<tr style='background-color:#ccc;'>";
 				for ($i = 0; $i < count($fields); $i++) {
-					echo '<td>'.$dbField[$fields[$i]].'</td>';
+					if( $i == 0 ){
+						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+					} else {
+						echo '<td>'.$dbField[$fields[$i]].'</td>';	
+					}
     			}
 				echo "</tr>";
 				$j++;

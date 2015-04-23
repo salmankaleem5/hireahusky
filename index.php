@@ -59,8 +59,8 @@ $app->get('/search', function () use ($app) {
     $app->render('search.php', array( 'jobTitle'=>$jobTitle, 'jobLocation'=>$jobLocation) );
 });
 
-$app->get('/job', function () use ($app) {
-    $app->render('job.php');
+$app->get('/job/:jobid', function ($jobid) use ($app) {
+    $app->render('job.php', array('id'=>$jobid));
 });
 
 $app->get('/test', function () use ($app) {

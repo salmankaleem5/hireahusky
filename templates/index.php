@@ -8,7 +8,6 @@ if( isset($flash['errorMsg']) ){
 
 <div class="jumbotron">
   <h1>Hire a Husky</h1>
-
   <form id="welcomeSearch" action="/hireahusky/search" class="form-inline">
   	<div class="form-group" style="position: relative;
 			margin-left: 0px; margin-right: 18px; margin-bottom: 0px; margin-top: 0px;
