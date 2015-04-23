@@ -64,6 +64,9 @@ $app->get('/job', function () use ($app) {
     $app->render('job.php');
 });
 
+$app->get('/test', function () use ($app) {
+    $app->render('test.php');
+});
 
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
