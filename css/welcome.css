@@ -1,14 +1,14 @@
-#user-menu{
+#welcome-menu{
 	width: 100%;
 	float: left;
 	font-size: 16px;
 }
 
-#user-menu li{
+#welcome-menu li{
 	margin: 3px;
 }
 
-#user-menu li a{
+#welcome-menu li a{
 	text-align: center;
 	border: 1px solid blue;
 	padding: 10px;
