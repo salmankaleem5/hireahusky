@@ -199,16 +199,16 @@ $app->get('/account', $authenticate, function() use ($app){
 	$app->render('account.php');
 });
 
-$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){
-	/*
+/*$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){
+	
 	Use $uname to get ResumeID of $user in Resume table
 	Use retrieved ResumeID to retrieve education info in Education table
 	Also use ResumeID to retrieve SSkillID in Skillset table. SSkillID corresponds to skills in Skill table
 
 	Pull resume information into editable fields. 
-	 */
+	 
 	$app->render('resume.php', array('uname'=>$uname));
-});
+});*/
 
 $app->run();
 ?>
