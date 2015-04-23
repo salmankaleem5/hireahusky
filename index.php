@@ -201,7 +201,7 @@ $app->post('/signup', function () use ($app){
 });
 
 $app->get('/account', $authenticate, function() use ($app){
-	$app->render('account.php');
+	$app->render('welcome.php');
 });
 
 /*$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){
