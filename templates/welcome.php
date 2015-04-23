@@ -1,5 +1,7 @@
 <?php
 include('header.php');
+include('userfns.php');
+include('acctupdt.php');
 ?>
 
 <html lang = "en">
@@ -52,11 +54,13 @@ include('header.php');
 
 					<div id="Account" class="span10 menuItem active">
 						<h2>My Account Information:</h2>
+						<?PHP updateInfo();?>
 					</div>
 					
 					
 					<div id="Jobs" style="display: none;" class="span9 menuItem">
 						<h2>Jobs I've Applied to:</h2>
+						<?PHP myjobs();?>
 					</div>
 					
 					<!-- add more divs like the one above -->
