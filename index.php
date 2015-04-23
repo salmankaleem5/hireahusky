@@ -196,7 +196,9 @@ $app->post('/signup', function () use ($app){
 });
 
 $app->get('/private', 'authenticate', function() use ($app){
-	echo 'hi';
+	//echo 'hi';
+	// redirect to the welcome.php user my page
+	$app->render('welcome.php');
 });
 
 $app->run();
