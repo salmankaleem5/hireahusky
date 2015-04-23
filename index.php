@@ -17,36 +17,33 @@ $app->hook('slim.before', function () use ($app) {
 
 $app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'testsecret')));
 
-function authenticate(){
-	$app = \Slim\Slim::getInstance();
-	if( !isset($_SESSION['user']) ){
-		$request = $app->request();
-		$_SESSION['urlRedirect'] = $request->getRootUri().$request->getPathInfo();
-		$app->flash('error', 'Login required');
-		$app->redirect('http://localhost/hireahusky/login');
-	}
+function returntoSession($app){
+	$request = $app->request();
+	$_SESSION['urlRedirect'] = $request->getRootUri().$request->getPathInfo();
+	$app->flash('errorMsg', 'Login required');
+	$app->redirect('http://localhost/hireahusky/login');
 }
 
-function login($UName, $UPasswd){
-	require('lib/database.php');
-	$sql = 'SELECT UName FROM user WHERE UName = "'.$UName.'"';
-	echo('query = ' .$sql);
-	$result = $mysql->query($sql);
-	echo('\nresult = ');
-	var_dump($result);
-	if($UName == $result) {
-		$sql = ('SELECT UPasswd FROM user WHERE UName == "' .$UName. '"');
-		var_dump($sql);
-		$result = $mysql->query($sql);
-		if($UPasswd == $result){
-			return 0;
-		}else{
-			return 1; // UPasswd doesn't match
+$authenticate = function(){
+	return function(){
+		$app = \Slim\Slim::getInstance();
+		if( !isset($_SESSION['user']) ){
+			returntoSession($app);
+		}	
+	};
+};
+
+$authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
+	return function () use ($uname){
+		$app = \Slim\Slim::getInstance();
+		if( !isset($_SESSION['user']) ){
+			returntoSession($app);
+		} else if( isset($_SESSION['user']) && $_SESSION['user'] != $uname ){
+			$app->flash('errorMsg', 'Access denied');
+			$app->redirect('http://localhost/hireahusky/');
 		}
-	}else{
-		return 2; //UName doesn't exist.
-	}
-}
+	};
+};
 
 $app->get('/', function () use ($app) {
     $app->render('index.php');
@@ -64,6 +61,9 @@ $app->get('/job', function () use ($app) {
     $app->render('job.php');
 });
 
+$app->get('/test', function () use ($app) {
+    $app->render('test.php');
+});
 
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
@@ -195,11 +195,20 @@ $app->post('/signup', function () use ($app){
 	}
 });
 
-$app->get('/private', 'authenticate', function() use ($app){
-	//echo 'hi';
-	// redirect to the welcome.php user my page
-	$app->render('welcome.php');
+$app->get('/account', $authenticate, function() use ($app){
+	$app->render('account.php');
 });
+
+/*$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){
+	
+	Use $uname to get ResumeID of $user in Resume table
+	Use retrieved ResumeID to retrieve education info in Education table
+	Also use ResumeID to retrieve SSkillID in Skillset table. SSkillID corresponds to skills in Skill table
+
+	Pull resume information into editable fields. 
+	 
+	$app->render('resume.php', array('uname'=>$uname));
+});*/
 
 $app->run();
 ?>
