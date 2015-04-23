@@ -8,11 +8,15 @@ if( isset($flash['errorMsg']) ){
 
 <div class="jumbotron">
   <h1>Hire a Husky</h1>
-  <div id="search-box">
-  	<input type="text" id="welcome_search_box" class="form-control" placeholder="Search to get started">
-  </div>
-  <br>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+  <form id="welcomeSearch" action="/hireahusky/search" class="form-inline">
+  	<div class="form-group">
+  		<input type="text" name="jobTitle" class="form-control" placeholder="Enter a job title">
+  	</div>
+  	<div class="form-group">
+  		<input type="text" name="jobLocation" class="form-control" placeholder="Enter a job location">
+  	</div>
+  	<button type="submit" class="btn btn-default">Search</button>
+  </form>
 </div>
 
 <?php

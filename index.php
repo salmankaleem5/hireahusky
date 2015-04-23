@@ -54,7 +54,9 @@ $app->get('/login', function () use ($app) {
 });
 //added for lynn's search.php-----------------------------
 $app->get('/search', function () use ($app) {
-    $app->render('search.php');
+	$jobTitle = $app->request->get('title');
+	$jobLocation = $app->request->get('location');
+    $app->render('search.php', array( 'jobTitle'=>$jobTitle, 'jobLocation'=>$jobLocation) );
 });
 
 $app->get('/job', function () use ($app) {

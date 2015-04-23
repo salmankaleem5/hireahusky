@@ -2,18 +2,22 @@
 	include ('lib/database.php');//for the global
 	include('header.php');
 	include ('hahapi.php');
-	//$app->get($title);
-	
-	//include('templates/header.php');
-	if(array_key_exists('title', $_GET)){
+
+	/*if(array_key_exists('title', $_GET)){
 		$title = $_GET['title'];
 		//print $title;
 	}
 	if(array_key_exists('location', $_GET)){
 		$location = $_GET['location'];
 		//print $location;
+	}*/
+
+	if( !empty($jobTitle) ){
+		$title = $jobTitle;
 	}
-	
+	if( !empty($jobLocation) ){
+		$location = $jobLocation;
+	}
 	
 	//here I define the names of the fields I am selecting (in the query)
 	$field_array = array( 'JobTitle','CName','JYRSExperience','JCity','StateID');
@@ -50,6 +54,7 @@
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
+		
 		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
         <tr>
