@@ -1,5 +1,4 @@
 <?PHP
-
 	include ('lib/database.php');//for the global
 	include('header.php');
 	include ('hahapi.php');
@@ -7,19 +6,10 @@
 	$field_array = array( 'JobTitle','CName','JYRSExperience','JCity','StateID','JDuties');
 	$name_array = array( 'Job Title','Company Name','Req Experience (years)','City','State','Job Description');
 	
-	/*if(array_key_exists('jobid', $_GET)){
-		$jobid = $_GET['jobid'];
-		//print $jobid;
-	}*/
-
 	if( !empty($id) ){
 		$jobid = $id;
 	}
-	
-	
 	if (isset($mysql)) {
-		//print "Database Found!". "<BR>";
-		
 		//structure the query based on defined variables
 		if(isset($jobid)){
 			$suffix = " WHERE JobID="."$jobid";
@@ -32,9 +22,10 @@
 		}
 		else{
 			print $jobid." is not a valid Job ID.";
-			
 		}		
-		//do the stuff
+	}
+	else {
+		print "ERROR: Database NOT Found ";
 	}
 	
 	function buildJobTable($results,$keys,$names){

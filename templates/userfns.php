@@ -9,11 +9,14 @@ function myjobs(){
 	if (isset($mysql)) {
 		//structure the query based on defined variables
 		
-		//do the stuff
-		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
+		/*
+		 * NOTE!! job.JobID is necessary as an ambiguity error is triggered
+		 * since there is a JobID column in both tables (I think this is the reason)
+		 */
+		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,job.JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
 		$result = $mysql->query($query);
 		if (!$result) {
-    		throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+    		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 		}
 		print $result->num_rows." results found...";
 		//we define the table header

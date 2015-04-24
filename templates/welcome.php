@@ -56,7 +56,10 @@ include('acctupdt.php');
 
 					<div id="Account" class="span10 menuItem active">
 						<h2>My Account Information:</h2>
-						<?PHP updateInfo();?>
+						<?PHP 
+						$uname = '"bfry"';//need to make this depend on who is logged in
+						updateInfo($uname);
+						?>
 					</div>
 					
 					

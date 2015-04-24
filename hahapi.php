@@ -3,8 +3,7 @@
 
 	function makeSearchTable($dbResults,$fields){
 		
-		//html for generating table header the way we want
-		//html for generating table body
+		//html for generating the search table body
 		$j = 0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
 			if($j%2 == 0){
