@@ -10,7 +10,7 @@ function myjobs(){
 		//structure the query based on defined variables
 		
 		//do the stuff
-		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
+		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
 		$result = $mysql->query($query);
 		if (!$result) {
     		throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
