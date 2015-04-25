@@ -1,5 +1,6 @@
 Hi 
 <?php 
+$app->request()->post('firstname');
 echo htmlspecialchars($_POST['firstname']); 
 ?> 
 

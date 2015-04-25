@@ -39,8 +39,8 @@ function updateInfo($uname){
 	Website:
 	<br><input type='text' name='Website' value='".$dbField['UHomePage']."'><br>";
 
-	echo '<table><tr><td style="width: 200px"><p><button type="submit" class="btn btn-primary btn-sm">Submit</button></p></td>
-	<td><p><button type="reset" class="btn btn-primary btn-sm">Reset</button></p></td> </tr></table>';
+	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">Submit</button></td>
+	<td><button type="reset" class="btn btn-primary btn-sm">Reset</button></p></td> </tr></table>';
 
 	echo "</fieldset></form>";
 	}
