@@ -11,33 +11,33 @@ function updateInfo($uname){
     	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 	}
 	$dbField = $result->fetch_assoc();
-	echo "<form action='action_page.php' method ='POST'><fieldset>
+	echo "<form action='action_page' method ='POST'><fieldset>
 
 	User Name:
-	<br><input type='text' name='username' value='".$dbField['UName']."'><br>
+	<br><input type='text' name='UName' value='".$dbField['UName']."'><br>
 	First name:
-	<br><input type='text' name='firstname' value='".$dbField['UFName']."'><br>
-	Last name:<br><input type='text' name='lastname' value='".$dbField['ULName']."'><br>
+	<br><input type='text' name='UFName' value='".$dbField['UFName']."'><br>
+	Last name:<br><input type='text' name='ULName' value='".$dbField['ULName']."'><br>
 	Adress Line 1:
-	<br><input type='text' name='address1' value='".$dbField['UStreet1']."'><br>
+	<br><input type='text' name='UStreet1' value='".$dbField['UStreet1']."'><br>
 	Adress Line 2:
-	<br><input type='text' name='address2' value='".$dbField['UStreet2']."'><br>
+	<br><input type='text' name='UStreet2' value='".$dbField['UStreet2']."'><br>
 	City:
-	<br><input type='text' name='city' value='".$dbField['UCity']."'><br>
+	<br><input type='text' name='UCity' value='".$dbField['UCity']."'><br>
 	State:
-	<br><input type='text' name='state' value='".$dbField['StateID']."'><br>
+	<br><input type='text' name='StateID' value='".$dbField['StateID']."'><br>
 	Zip:
-	<br><input type='text' name='zip' value='".$dbField['Zipcode']."'><br>
+	<br><input type='text' name='Zipcode' value='".$dbField['Zipcode']."'><br>
 	Email:
-	<br><input type='text' name='Email' value='".$dbField['UEmail']."'><br>
+	<br><input type='text' name='UEmail' value='".$dbField['UEmail']."'><br>
 	Phone:
-	<br><input type='text' name='Phone' value='".$dbField['UPhone']."'><br>
+	<br><input type='text' name='UPhone' value='".$dbField['UPhone']."'><br>
 	Cell:
-	<br><input type='text' name='Cell' value='".$dbField['UCell']."'><br>
+	<br><input type='text' name='UCell' value='".$dbField['UCell']."'><br>
 	Fax:
-	<br><input type='text' name='Fax' value='".$dbField['UFax']."'><br>
+	<br><input type='text' name='UFax' value='".$dbField['UFax']."'><br>
 	Website:
-	<br><input type='text' name='Website' value='".$dbField['UHomePage']."'><br>";
+	<br><input type='text' name='UHomePage' value='".$dbField['UHomePage']."'><br>";
 
 	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">Submit</button></td>
 	<td><button type="reset" class="btn btn-primary btn-sm">Reset</button></p></td> </tr></table>';

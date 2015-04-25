@@ -67,6 +67,10 @@ $app->get('/test', function () use ($app) {
     $app->render('test.php');
 });
 
+$app->post('/action_page', function () use ($app) {
+    $app->render('action_page.php');
+});
+
 $app->get('/welcome', function () use ($app) {
     $app->render('welcome.php');
 });
