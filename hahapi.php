@@ -5,9 +5,9 @@
 		
 		//html for generating table header the way we want
 		//html for generating table body
-		$j = 0;
+		//$j = 0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
-			if($j%2 == 0){
+			//if($j%2 == 0){
 				echo "<tr>";
 				for ($i = 0; $i < count($fields); $i++) {
 					if( $i == 0 ){
@@ -17,8 +17,8 @@
 					}
     			}
 				echo "</tr>";
-				$j++;
-			}
+				//$j++;
+			/*}
 			else{
 			echo "<tr style='background-color:#ccc;'>";
 				for ($i = 0; $i < count($fields); $i++) {
@@ -30,7 +30,7 @@
     			}
 				echo "</tr>";
 				$j++;
-			}
+			}*/
 		}
 	}			
 	function state2ID(){}

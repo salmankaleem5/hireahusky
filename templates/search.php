@@ -55,7 +55,7 @@
 		print $result->num_rows." results found...";
 		//we define the table header
 		
-		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+		echo "<table class='table table-bordered table-striped table-hover' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
         <tr>
         <th>Job Title</th>
