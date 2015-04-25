@@ -2,47 +2,41 @@
 	include ('lib/database.php');//for the global
 	include('header.php');
 	include ('hahapi.php');
-
-	/*if(array_key_exists('title', $_GET)){
-		$title = $_GET['title'];
-		//print $title;
+	//$app->get($title);
+	
+	//include('templates/header.php');
+	if(array_key_exists('jobTitle', $_GET)){
+		$title = $_GET['jobTitle'];
+		$title = '"'.$title.'"';//adds parentheses around the string
 	}
-	if(array_key_exists('location', $_GET)){
-		$location = $_GET['location'];
+	if(array_key_exists('jobLocation', $_GET)){
+		$location = $_GET['jobLocation'];
+		$location = '"'.$location.'"';//adds parentheses around the string
 		//print $location;
-	}*/
-
-	if( !empty($jobTitle) ){
-		$title = $jobTitle;
-	}
-	if( !empty($jobLocation) ){
-		$location = $jobLocation;
-	}
+	}	
 	
 	//here I define the names of the fields I am selecting (in the query)
 	$field_array = array( 'JobTitle','CName','JYRSExperience','JCity','StateID');
-	
+	//var_dump($location);
 	//standard DB connection
 	if (isset($mysql)) {
 		//print "Database Found!". "<BR>";
 		
 		//structure the query based on defined variables
-		if(isset($title)){
-			if(isset($location)){
-				
-				$suffix = " WHERE JobTitle=".$title."&& JCity =".$location;
+		if($title == '""'){//if no jobtitle value is passed
+			if($location == '""'){//if no joblocation is passed
+				$suffix = "";
 			}
-			else{
-				$suffix = " WHERE JobTitle="."$title";
+			else{//if joblocation is set
+				$suffix = " WHERE JCity=".$location;
 			}
 		}
 		else{
-			
-			if(isset($location)){
-				$suffix = " WHERE JCity=".$location;
+			if($location == '""'){//have a jobtitle but no location
+				$suffix = " WHERE JobTitle="."$title";
 			}
-			else{
-				$suffix = "";
+			else{//have both title and location
+				$suffix = " WHERE JobTitle=".$title."&& JCity =".$location;
 			}
 		}
 		
@@ -54,8 +48,8 @@
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
-		
-		echo "<table class='table table-bordered table-striped table-hover' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+
+		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
         <tr>
         <th>Job Title</th>
@@ -67,7 +61,7 @@
         </thead>
         <tbody>";
 		//makes the remaining table body from the query results and categorizes by the field names
-		getTable($result, $field_array);
+		makeSearchTable($result, $field_array);
 		echo "</tbody>
         </table>";
 
