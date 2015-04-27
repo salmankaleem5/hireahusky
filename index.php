@@ -24,14 +24,12 @@ function returntoSession($app){
 	$app->redirect('http://localhost/hireahusky/login');
 }
 
-$authenticate = function(){
-	return function(){
-		$app = \Slim\Slim::getInstance();
-		if( !isset($_SESSION['user']) ){
-			returntoSession($app);
-		}	
-	};
-};
+function authenticate(){
+	$app = \Slim\Slim::getInstance();
+	if( !isset($_SESSION['user']) ){
+		returntoSession($app);
+	}	
+}
 
 $authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
 	return function () use ($uname){
@@ -54,8 +52,8 @@ $app->get('/login', function () use ($app) {
 });
 //added for lynn's search.php-----------------------------
 $app->get('/search', function () use ($app) {
-	$jobTitle = $app->request->get('title');
-	$jobLocation = $app->request->get('location');
+	$jobTitle = $app->request->get('jobTitle');
+	$jobLocation = $app->request->get('jobLocation');
     $app->render('search.php', array( 'jobTitle'=>$jobTitle, 'jobLocation'=>$jobLocation) );
 });
 
@@ -204,7 +202,7 @@ $app->post('/signup', function () use ($app){
 	}
 });
 
-$app->get('/account', $authenticate, function() use ($app){
+$app->get('/account', 'authenticate', function() use ($app){
 	$app->render('welcome.php');
 });
 

@@ -4,32 +4,16 @@
 	function makeSearchTable($dbResults,$fields){
 		
 		//html for generating the search table body
-		$j = 0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
-			if($j%2 == 0){
-				echo "<tr>";
-				for ($i = 0; $i < count($fields); $i++) {
-					if( $i == 0 ){
-						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
-					} else {
-						echo '<td>'.$dbField[$fields[$i]].'</td>';	
-					}
-    			}
-				echo "</tr>";
-				$j++;
+			echo "<tr>";
+			for ($i = 0; $i < count($fields); $i++) {
+				if( $i == 0 ){
+					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+				} else {
+					echo '<td>'.$dbField[$fields[$i]].'</td>';	
+				}
 			}
-			else{
-			echo "<tr style='background-color:#ccc;'>";
-				for ($i = 0; $i < count($fields); $i++) {
-					if( $i == 0 ){
-						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
-					} else {
-						echo '<td>'.$dbField[$fields[$i]].'</td>';	
-					}
-    			}
-				echo "</tr>";
-				$j++;
-			}
+			echo "</tr>";
 		}
 	}	
 	function getTable($dbResults,$fields){
@@ -38,30 +22,15 @@
 		//html for generating table body
 		//$j = 0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
-			//if($j%2 == 0){
-				echo "<tr>";
-				for ($i = 0; $i < count($fields); $i++) {
-					if( $i == 0 ){
-						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
-					} else {
-						echo '<td>'.$dbField[$fields[$i]].'</td>';	
-					}
-    			}
-				echo "</tr>";
-				//$j++;
-			/*}
-			else{
-			echo "<tr style='background-color:#ccc;'>";
-				for ($i = 0; $i < count($fields); $i++) {
-					if( $i == 0 ){
-						echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
-					} else {
-						echo '<td>'.$dbField[$fields[$i]].'</td>';	
-					}
-    			}
-				echo "</tr>";
-				$j++;
-			}*/
+			echo "<tr>";
+			for ($i = 0; $i < count($fields); $i++) {
+				if( $i == 0 ){
+					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+				} else {
+					echo '<td>'.$dbField[$fields[$i]].'</td>';	
+				}
+			}
+			echo "</tr>";
 		}
 	}			
 	function state2ID(){}
