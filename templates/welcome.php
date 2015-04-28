@@ -35,7 +35,12 @@ include('acctupdt.php');
 		<div class="content-wrapper">
 			<div id="page-header" class="row-fluid">
 				<div class="span12 hero-unit black">
-					<h1>Welcome [insert user name here]</h1>
+					<?PHP 
+						$uname = 'bfry';
+						//$uname = $_SESSION['user'];//doesn't work for some reason
+						echo "<h1>Welcome, $uname!</h1>";
+					?>
+					
 				</div>
 			</div>
 			
