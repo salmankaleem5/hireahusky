@@ -41,6 +41,34 @@ function myjobs($uname){
 	}
 }
 
+function myresumes($uname){
+	$uname = '"'.$uname.'"';
+	$mysql = $GLOBALS['mysql'];
+	$field_array = array( 'ResumeID');
+	//standard DB connection
+	if (isset($mysql)) {
+		//structure the query based on defined variables
+		$query = "SELECT ResumeID FROM resume INNER JOIN user on resume.UName=user.UName WHERE user.UName = $uname";
+		$result = $mysql->query($query);
+		if (!$result) {
+    		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+		}
+		print $result->num_rows." results found...";
+		//we define the table header
+		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+        <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
+        <tr><th>Resume</th></tr>
+        </thead>
+        <tbody>";
+		//makes the remaining table body from the query results and categorizes by the field names
+		makeResumeTable($result, $field_array);
+		echo "</tbody></table>";
+	}
+	else {
+		print "ERROR: Database NOT Found ";
+	}
+}
+
 function myposts($uname){
 	$uname = '"'.$uname.'"';
 	$mysql = $GLOBALS['mysql'];
@@ -68,5 +96,6 @@ function myposts($uname){
 		print "ERROR: Database NOT Found ";
 	}
 }
+
 
 ?>
