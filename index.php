@@ -203,7 +203,21 @@ $app->post('/signup', function () use ($app){
 });
 
 $app->get('/account', 'authenticate', function() use ($app){
-	$app->render('welcome.php');
+	require('lib/database.php');
+	$username = $_SESSION['user'];
+	$sql = "SELECT UStatusID FROM user WHERE UName='$username' ";
+	if( $result = $mysql->query($sql) ){
+		$row = $result->fetch_assoc();
+		$UStatusID = $row['UStatusID'];
+		// check the user's UStatusID, 0=seeker, 1=poster, 2=admin
+		if ($UStatusID == 0) {
+			$app->render('welcome.php');
+		} else if($UStatusID == 1) {
+			$app->render('welcome_poster.php');
+		}
+	} else {
+		echo('query error in app->get/account');
+	}
 });
 
 /*$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){

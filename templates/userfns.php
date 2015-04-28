@@ -41,7 +41,7 @@ function myjobs($uname){
 	}
 }
 
-function myresumes($uname){
+function myposts($uname){
 	$uname = '"'.$uname.'"';
 	$mysql = $GLOBALS['mysql'];
 	$field_array = array( 'ResumeID');
@@ -68,4 +68,5 @@ function myresumes($uname){
 		print "ERROR: Database NOT Found ";
 	}
 }
+
 ?>
