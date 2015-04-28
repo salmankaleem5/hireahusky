@@ -2,9 +2,10 @@
 include ('lib/database.php');
 include('hahapi.php');
 
-function myjobs(){
+function myjobs($uname){
 	$mysql = $GLOBALS['mysql'];
 	$field_array = array( 'DateApplied','JobTitle','CName','JCity','StateID');
+	$uname = '"'.$uname.'"';
 	//standard DB connection
 	if (isset($mysql)) {
 		//structure the query based on defined variables
@@ -13,7 +14,7 @@ function myjobs(){
 		 * NOTE!! job.JobID is necessary as an ambiguity error is triggered
 		 * since there is a JobID column in both tables (I think this is the reason)
 		 */
-		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,job.JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
+		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,job.JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = $uname";
 		$result = $mysql->query($query);
 		if (!$result) {
     		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
@@ -32,7 +33,7 @@ function myjobs(){
         </thead>
         <tbody>";
 		//makes the remaining table body from the query results and categorizes by the field names
-		getTable($result, $field_array);
+		makeJobTable($result, $field_array);
 		echo "</tbody></table>";
 	}
 	else {
@@ -40,34 +41,27 @@ function myjobs(){
 	}
 }
 
-function myresume(){
+function myresumes($uname){
+	$uname = '"'.$uname.'"';
 	$mysql = $GLOBALS['mysql'];
-	$field_array = array( 'DateApplied','JobTitle','CName','JCity','StateID');
+	$field_array = array( 'ResumeID');
 	//standard DB connection
 	if (isset($mysql)) {
 		//structure the query based on defined variables
-		
-		//do the stuff
-		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = 'bfry'";
+		$query = "SELECT ResumeID FROM resume INNER JOIN user on resume.UName=user.UName WHERE user.UName = $uname";
 		$result = $mysql->query($query);
 		if (!$result) {
-    		throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+    		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
 		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
-        <tr>
-        <th>Application Date</th>
-        <th>Job Title</th>
-        <th>Company Name</th>
-        <th>City</th>
-        <th>State</th>
-        </tr>
+        <tr><th>Resume</th></tr>
         </thead>
         <tbody>";
 		//makes the remaining table body from the query results and categorizes by the field names
-		getTable($result, $field_array);
+		makeResumeTable($result, $field_array);
 		echo "</tbody></table>";
 	}
 	else {

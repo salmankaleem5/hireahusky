@@ -3,9 +3,9 @@
 	include('header.php');
 	include ('hahapi.php');
 	$mysql = $GLOBALS['mysql'];
-	print $_POST['StateID'];
 	//$uname = '"' . $_SESSION['user'] . '"';
-	$uname = '"'."bfry".'"';
+	//$uname = '"'."bfry".'"';
+	$uname = '"'.$_SESSION['user'].'"';//friendly ver for queries
 	//http://www.w3schools.com/php/php_mysql_update.asp [modified]
 	if (!$mysql) {
     	die("Connection failed: " . mysqli_connect_error());

@@ -3,18 +3,53 @@ include ('lib/database.php');
 $mysql = $GLOBALS['mysql'];
 
 function updateInfo($uname){
+	$uname = '"'.$uname.'"';//adds quotes to variable $uname
 	$mysql = $GLOBALS['mysql'];//needs to be here to work for some reason
 	if (isset($mysql)) {
-	$query = "SELECT * FROM user WHERE user.UNAME = $uname";
-	$result = $mysql->query($query);
-	
+	$res_query = "SELECT  
+			  FROM resume 
+			  INNER JOIN user on user.UName=resume.UName
+			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
+			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
+			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
+			  WHERE user.UNAME = $uname";
+	$deg_query = "SELECT  
+			  FROM resume 
+			  INNER JOIN user on user.UName=resume.UName
+			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
+			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
+			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
+			  WHERE user.UNAME = $uname";
+	$skill_query = "SELECT  
+			  FROM resume 
+			  INNER JOIN user on user.UName=resume.UName
+			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
+			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
+			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
+			  WHERE user.UNAME = $uname";
+			  
+	$res_result = $mysql->query($res_query);
 	if (!$result) {
     	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 	}
-	$dbField = $result->fetch_assoc();
+	$deg_result = $mysql->query($deg_query);
+	if (!$result) {
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	$skill_result = $mysql->query($skill_query);
+	if (!$result) {
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	
+	
+	$resField = $result->fetch_assoc();
+	$degField = $result->fetch_assoc();
+	$skillField = $result->fetch_assoc();
+	//print "Username : $dbField['UName']<br>";
+	
 	$stateprep = $dbField['StateID'];
 	
-	echo "<form action='action_page' method ='POST'><fieldset>
+	echo "<form action='user_update_actions' method ='POST'><fieldset>
 	
 	User Name:
 	<br><input type='text' name='UName' value='".$dbField['UName']."'><br>
@@ -38,7 +73,7 @@ function updateInfo($uname){
 	else{
 		
 		$convert = id2State($stateprep);
-		echo "<option selected='selected'>$convert</option>";
+		echo "<option selected='selected' value=$stateprep>$convert</option>";
 	}
 	
     $states = statesList();

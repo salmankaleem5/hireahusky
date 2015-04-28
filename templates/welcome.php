@@ -1,7 +1,7 @@
 <?php
 include('header.php');
 include('userfns.php');
-include('acctupdt.php');
+include('user_update.php');
 ?>
 
 <html lang = "en">
@@ -36,8 +36,8 @@ include('acctupdt.php');
 			<div id="page-header" class="row-fluid">
 				<div class="span12 hero-unit black">
 					<?PHP 
-						$uname = 'bfry';
-						//$uname = $_SESSION['user'];//doesn't work for some reason
+						//$uname = 'bfry';
+						$uname = $_SESSION['user'];//doesn't work for some reason
 						echo "<h1>Welcome, $uname!</h1>";
 					?>
 					
@@ -62,7 +62,7 @@ include('acctupdt.php');
 					<div id="Account" class="span10 menuItem active">
 						<h2>My Account Information:</h2>
 						<?PHP 
-						$uname = '"bfry"';//need to make this depend on who is logged in
+						$uname = $_SESSION['user'];
 						updateInfo($uname);
 						?>
 					</div>
@@ -70,12 +70,18 @@ include('acctupdt.php');
 					
 					<div id="Jobs" style="display: none;" class="span9 menuItem">
 						<h2>Jobs I've Applied to:</h2>
-						<?PHP myjobs();?>
+						<?PHP
+						$uname = $_SESSION['user'];
+						 myjobs($uname);
+						?>
 					</div>
 					
 					<div id="Resume" style="display: none;" class="span9 menuItem">
 						<h2>Uploaded Resumes:</h2>
-						<?PHP myresume();?>
+						<?PHP 
+						$uname = $_SESSION['user'];
+						myresumes($uname);
+						?>
 					</div>
 					
 					<!-- add more divs like the one above -->

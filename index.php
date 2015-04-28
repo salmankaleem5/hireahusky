@@ -65,8 +65,8 @@ $app->get('/test', function () use ($app) {
     $app->render('test.php');
 });
 
-$app->post('/action_page', function () use ($app) {
-    $app->render('action_page.php');
+$app->post('/user_update_actions', function () use ($app) {
+    $app->render('user_update_actions.php');
 });
 
 $app->get('/welcome', function () use ($app) {

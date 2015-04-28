@@ -16,11 +16,9 @@
 			echo "</tr>";
 		}
 	}	
-	function getTable($dbResults,$fields){
+	function makeJobTable($dbResults,$fields){
 		
 		//html for generating table header the way we want
-		//html for generating table body
-		//$j = 0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
 			echo "<tr>";
 			for ($i = 0; $i < count($fields); $i++) {
@@ -32,7 +30,23 @@
 			}
 			echo "</tr>";
 		}
-	}			
+	}
+	function makeResumeTable($dbResults,$fields){
+		
+		//html for generating table header the way we want
+		while ( $dbField = $dbResults->fetch_assoc() ) {
+			echo "<tr>";
+			for ($i = 0; $i < count($fields); $i++) {
+				if( $i == 0 ){
+					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField[$fields[$i]].'">Resume'.($i+1).'</a></td>';
+				} else {
+					echo '<td>'.$dbField[$fields[$i]].'</td>';	
+				}
+			}
+			echo "</tr>";
+		}
+	}
+	//need this to generate state abbreviations for representation in editing pages when DB gives a stateid
 	function id2State($id){
 		$array = array('1'=>"AL",
 						'2'=>"AK",
