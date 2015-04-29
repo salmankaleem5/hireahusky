@@ -37,7 +37,7 @@ function authenticatePoster($username, $jobid){
 	$suffix = 'UName='.'"$username"'.'and JobID=$jobid';
 	$sql = "SELECT Uname, JobID FROM postandpay WHERE".$suffix;
 	$result = $mysql->query($sql);    
-	echo($numApplicants);
+	//echo($numApplicants);
 	if(($result == NULL)){
 		return 0;
 	}
@@ -82,6 +82,27 @@ $app->get('/applicants/:jobid', function ($jobid) use ($app) {
 	//	echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
 	//}
 });
+
+$app->get('/newposting', 'authenticate', function() use ($app){
+	require('lib/database.php');
+	$username = $_SESSION['user'];
+	$sql = "SELECT UStatusID FROM user WHERE UName='$username' ";
+	if( $result = $mysql->query($sql) ){
+		$row = $result->fetch_assoc();
+		$UStatusID = $row['UStatusID'];
+		// check the user's UStatusID, 0=seeker, 1=poster, 2=admin
+		if ($UStatusID == 1) {
+			$app->render('newposting.php');
+		} else if($UStatusID == 1) {
+			echo('Please log in with a poster account to create a new job posting, or upgrade your current account');
+			$app->render('welcome.php');
+		}
+	} else {
+		echo('query error in app->get/account');
+	}
+});
+
+
 
 $app->get('/test', function () use ($app) {
     $app->render('test.php');
