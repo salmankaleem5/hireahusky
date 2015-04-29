@@ -1,5 +1,25 @@
 <?PHP
 	
+<<<<<<< HEAD
+=======
+	function makePostedJobsTable($dbResults,$fields){
+		
+		//html for generating table header the way we want
+		while ( $dbField = $dbResults->fetch_assoc() ) {
+			echo "<tr>";
+			for ($i = 0; $i < count($fields); $i++) {
+				if( $i == 0 ){
+					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+				} else {
+					echo '<td>'.$dbField[$fields[$i]].'</td>';	
+				}
+			}
+			echo "</tr>";
+		}
+	}
+
+
+>>>>>>> origin/master
 	function makeSearchTable($dbResults,$fields){
 		
 		//html for generating the search table body

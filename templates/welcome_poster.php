@@ -86,7 +86,7 @@ include('user_update.php');
 					</div>
 										
 					<div id="Posted" style="display: none;" class="span9 menuItem">
-						<h2>Uploaded Resumes:</h2>
+						<h2>Posted Jobs:</h2>
 						<?PHP 
 						$uname = $_SESSION['user'];
 						myposts($uname);
