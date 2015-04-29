@@ -9,21 +9,15 @@ function updateInfo($uname){
 	$res_query = "SELECT  
 			  FROM resume 
 			  INNER JOIN user on user.UName=resume.UName
-			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
-			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
-			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
 			  WHERE user.UNAME = $uname";
 	$deg_query = "SELECT  
 			  FROM resume 
 			  INNER JOIN user on user.UName=resume.UName
 			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
-			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
-			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
 			  WHERE user.UNAME = $uname";
 	$skill_query = "SELECT  
 			  FROM resume 
 			  INNER JOIN user on user.UName=resume.UName
-			  INNER JOIN education on resume.ResumeID=eudcation.ResumeID
 			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
 			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
 			  WHERE user.UNAME = $uname";
@@ -43,15 +37,14 @@ function updateInfo($uname){
 	
 	
 	$resField = $result->fetch_assoc();
-	$degField = $result->fetch_assoc();
-	$skillField = $result->fetch_assoc();
-	//print "Username : $dbField['UName']<br>";
+	//$degField = $result->fetch_assoc();
+	//$skillField = $result->fetch_assoc();
 	
 	$stateprep = $dbField['StateID'];
 	
 	echo "<form action='user_update_actions' method ='POST'><fieldset>
 	
-	User Name:
+	Salary Minimum:
 	<br><input type='text' name='UName' value='".$dbField['UName']."'><br>
 	First name:
 	<br><input type='text' name='UFName' value='".$dbField['UFName']."'><br>
@@ -76,11 +69,19 @@ function updateInfo($uname){
 		echo "<option selected='selected' value=$stateprep>$convert</option>";
 	}
 	
-    $states = statesList();
-	
+    //$states = statesList();//old one that works
+    $generic_query= "SELECT StateID,StateName FROM state";
+    //$stateName="'"."StateName"."'";
+    //$stateID='"'."StateID".'"';
+    $stateName= "StateName";
+    $stateID= "StateID";
     //php code
+    /*
     foreach($states as $key=>$value){
 		echo "<option value = $value> $key </option>";
+		}*/
+	while ( $dbField = $generic_query->fetch_assoc() ) {
+			echo "<option value= $dbField[$stateName]> $dbField[$stateID] </option>";
 		}
 	//end php code
 	
