@@ -1,7 +1,4 @@
 <?PHP
-	
-<<<<<<< HEAD
-=======
 	function makePostedJobsTable($dbResults,$fields){
 		
 		//html for generating table header the way we want
@@ -18,8 +15,6 @@
 		}
 	}
 
-
->>>>>>> origin/master
 	function makeSearchTable($dbResults,$fields){
 		
 		//html for generating the search table body
