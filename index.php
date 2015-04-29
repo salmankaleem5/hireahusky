@@ -34,11 +34,14 @@ function authenticate(){
 // make sure only posters can view applicants for the jobs they've posted. 
 function authenticatePoster($username, $jobid){
 	require('lib/database.php');
-	$suffix = 'UName='.'"$username"'.'and JobID=$jobid';
-	$sql = "SELECT Uname, JobID FROM postandpay WHERE".$suffix;
-	$result = $mysql->query($sql);    
+	$suffix = "UName= '$username' AND JobID='$jobid'";
+	$sql = "SELECT Uname FROM postandpay WHERE ".$suffix;
+	$result = $mysql->query($sql); 
+	if (!$result){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}   
 	//echo($numApplicants);
-	if(($result == NULL)){
+	if( $result->fetch_assoc()==NULL ){
 		return 0;
 	}
 	return 1;
@@ -90,17 +93,11 @@ $app->get('/newposting', 'authenticate', function() use ($app){
 	}
 });
 
-
-
-$app->get('/test', function () use ($app) {
-    $app->render('test.php');
-});
-
 $app->post('/user_update_actions', function () use ($app) {
     $app->render('user_update_actions.php');
 });
 
-<<<<<<< HEAD
+
 $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
@@ -108,9 +105,7 @@ $app->post('/resume_add_actions', function () use ($app) {
 $app->get('/welcome', function () use ($app) {
     $app->render('welcome.php');
 });
-=======
 
->>>>>>> 43bc3a1dbc413aae4ae20f03b47820df701d9dba
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
