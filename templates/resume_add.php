@@ -2,49 +2,60 @@
 include ('lib/database.php');
 $mysql = $GLOBALS['mysql'];
 
-function updateResume($uname){
+function addResume($uname){
 	$uname = '"'.$uname.'"';//adds quotes to variable $uname
 	$mysql = $GLOBALS['mysql'];//needs to be here to work for some reason
 	if (isset($mysql)) {
-	$query = "SELECT * 
-			  FROM resume 
-			  INNER JOIN user on user.UName=resume.UName
-			  INNER JOIN skillset on skillset.ResumeID=resume.ResumeID
-			  INNER JOIN skill on skillset.SSkillID=skill.SSkillID
-			  WHERE user.UNAME = $uname";
-	  
-	$result = $mysql->query($res_query);
-	if (!$result) {
+	//need to add prior jobs stuff
+	$deg_query = "SELECT DegreeTypeID, DegreeType FROM degreetype";
+	$uni_query = "SELECT UniversityID ,UniversityName FROM university";
+	$skill_query= "SELECT SSkillID, SSkillName FROM Skill";
+	$skill_query= "SELECT SSkillID, SSkillName FROM Skill";
+	$deg_result = $mysql->query($deg_query);
+	$uni_result = $mysql->query($uni_query);
+	$skill_result = $mysql->query($skill_query);
+	if (!($deg_result||$uni_result||$skill_result) ){
     	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 	}
-
-	$resField = $result->fetch_assoc();
-
-	$stateprep = $dbField['StateID'];
 	
-	echo "<form action='user_update_actions' method ='POST'><fieldset>
+	echo "<form action='resume_add_actions' method ='POST'><fieldset>
 	
-	Salary Minimum:
-	<br><input type='text' name='UName' value='".$dbField['UName']."'><br>
-	First name:
-	<br><input type='text' name='UFName' value='".$dbField['UFName']."'><br>
+	Desired Salary Minimum:<br>
+	<input type='text' name='RSalaryMin'><br>
+	Objective:<br>
+	<input type='text' name='RObjective'><br>
+	<b>Education</b><br>";
+	
+	$state_result = $mysql->query($state_query);
+	if (!$state_result) {
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+    while ( $dbField = $state_result->fetch_assoc() ) {
+    		$key=$dbField['StateName'];
+    		$value=$dbField['StateID'];
+			echo "<option value = $value> $key </option>";
+			}
+	
+	
+	//end php code
+	
+	
+	
+	echo "GPA:<br>
+		<input type='text' name='EGPA'><br>";
+	
+	
+	
+	/*
 	Last name:<br><input type='text' name='ULName' value='".$dbField['ULName']."'><br>
 	Adress Line 1:
 	<br><input type='text' name='UStreet1' value='".$dbField['UStreet1']."'><br>
 	Adress Line 2:
 	<br><input type='text' name='UStreet2' value='".$dbField['UStreet2']."'><br>
 	City:
-	<br><input type='text' name='UCity' value='".$dbField['UCity']."'><br>
+	<br><input type='text' name='UCity' value='".$dbField['UCity']."'><br>";
 	
-	State:
-	<br><select name='StateID'>";
 	
-	if($stateprep == ''){
-		echo "<option selected='selected'>Select...</option>"; 
-	}
-	else{
-		echo "<option selected='selected' value=$stateprep>$convert</option>";
-	}
 	
     
 	
@@ -63,7 +74,7 @@ function updateResume($uname){
 	<br><input type='text' name='UFax' value='".$dbField['UFax']."'><br>
 	Website:
 	<br><input type='text' name='UHomePage' value='".$dbField['UHomePage']."'><br>";
-
+*/
 	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">Submit</button></td>
 	<td><button type="reset" class="btn btn-primary btn-sm">Reset</button></p></td> </tr></table>';
 

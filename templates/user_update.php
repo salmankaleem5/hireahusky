@@ -46,9 +46,9 @@ function updateInfo($uname){
 	if (!$state_result) {
     	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 	}
-    while ( $dbField = $state_result->fetch_assoc() ) {
-    		$key=$dbField['StateName'];
-    		$value=$dbField['StateID'];
+    while ( $dbField2 = $state_result->fetch_assoc() ) {
+    		$key=$dbField2['StateName'];
+    		$value=$dbField2['StateID'];
 			echo "<option value = $value> $key </option>";
 			}
 	//end php code
