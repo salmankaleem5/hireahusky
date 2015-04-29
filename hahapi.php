@@ -1,13 +1,16 @@
 <?PHP
 	function makePostedJobsTable($dbResults,$fields){
 		
-		//html for generating table header the way we want
 		while ( $dbField = $dbResults->fetch_assoc() ) {
 			echo "<tr>";
-			for ($i = 0; $i < count($fields); $i++) {
+			for ($i = 0; $i < count($fields)+1; $i++) {
 				if( $i == 0 ){
 					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
-				} else {
+				}elseif ($i == 5) {
+					// eventually I want the link to be the number of applicants for the job, for now it'll be text.
+					//echo '<td><a href="http://localhost/hireahusky/view_applicants/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
+					echo '<td><a href="http://localhost/hireahusky/applicants/'.$dbField["JobID"].'">view applicants</a></td>';
+				}else {
 					echo '<td>'.$dbField[$fields[$i]].'</td>';	
 				}
 			}

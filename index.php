@@ -31,6 +31,19 @@ function authenticate(){
 	}	
 }
 
+// make sure only posters can view applicants for the jobs they've posted. 
+function authenticatePoster($username, $jobid){
+	require('lib/database.php');
+	$suffix = 'UName='.'"$username"'.'and JobID=$jobid';
+	$sql = "SELECT Uname, JobID FROM postandpay WHERE".$suffix;
+	$result = $mysql->query($sql);    
+	echo($numApplicants);
+	if(($result == NULL)){
+		return 0;
+	}
+	return 1;
+}
+
 $authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
 	return function () use ($uname){
 		$app = \Slim\Slim::getInstance();
@@ -61,6 +74,15 @@ $app->get('/job/:jobid', function ($jobid) use ($app) {
     $app->render('job.php', array('id'=>$jobid));
 });
 
+$app->get('/applicants/:jobid', function ($jobid) use ($app) {
+	$username = $_SESSION['user'];
+	//if(authenticatePoster($username, $jobid)){
+    	$app->render('applicants.php', array('id'=>$jobid));
+	//}else {
+	//	echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
+	//}
+});
+
 $app->get('/test', function () use ($app) {
     $app->render('test.php');
 });
@@ -69,9 +91,7 @@ $app->post('/user_update_actions', function () use ($app) {
     $app->render('user_update_actions.php');
 });
 
-$app->get('/welcome', function () use ($app) {
-    $app->render('welcome.php');
-});
+
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
