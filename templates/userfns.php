@@ -88,7 +88,7 @@ function myposts($uname){
 		if (!$result) {
     		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 		}
-		print $result->num_rows." results found...";
+		print $result->num_rows." result(s) found...";
 		//we define the table header
 		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
@@ -98,6 +98,7 @@ function myposts($uname){
         <th>Company Name</th>
         <th>City</th>
         <th>State</th>
+        <th>No. Applicants</th>
         </tr>
         </thead>
         <tbody>";

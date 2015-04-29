@@ -18,7 +18,7 @@
 			if (!$result) {
     			throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
 			}
-			buildJobTable($result,$field_array,$name_array);
+			buildJobTable($result,$field_array,$name_array, $jobid);
 		}
 		else{
 			print $jobid." is not a valid Job ID.";
@@ -28,7 +28,7 @@
 		print "ERROR: Database NOT Found ";
 	}
 	
-	function buildJobTable($results,$keys,$names){
+	function buildJobTable($results,$keys,$names, $jobid){
 		
 		echo "<table class='table' cellpadding='7' style='width: 200px border: 1px solid black; border-collapse:collapse;'>
         ";
@@ -43,5 +43,16 @@
     	echo "<tr><td></td><td></tr>";//padding for last line to show up
 		echo '</table>
 		<p><a class="btn btn-primary btn-sm" href="#" role="button">Apply Now</a></p>';
+		// check if the user is the poster of this job and present the following buttons. 
+		// use the authenticatePoster(username, jobid) function in the index.php
+		if( isset($_SESSION['user']) ){
+    		$username = $_SESSION['user'];
+			if (authenticatePoster($username, $jobid)) {
+				echo '</table>
+				<p><a class="btn btn-primary btn-sm" href="#" role="button">Edit Details</a></p>
+				<p><a class="btn btn-primary btn-sm" href="#" role="button">Mark Position as Filled</a></p>
+				<p><a class="btn btn-primary btn-sm" href="#" role="button">Remove This Post</a></p>';
+			}
+    	}
 	}
 	?>

@@ -31,6 +31,19 @@ function authenticate(){
 	}
 }
 
+// make sure only posters can view applicants for the jobs they've posted. 
+function authenticatePoster($username, $jobid){
+	require('lib/database.php');
+	$suffix = 'UName='.'"$username"'.'and JobID=$jobid';
+	$sql = "SELECT Uname, JobID FROM postandpay WHERE".$suffix;
+	$result = $mysql->query($sql);    
+	//echo($numApplicants);
+	if(($result == NULL)){
+		return 0;
+	}
+	return 1;
+}
+
 $authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
 	return function () use ($uname){
 		$app = \Slim\Slim::getInstance();
@@ -61,6 +74,36 @@ $app->get('/job/:jobid', function ($jobid) use ($app) {
     $app->render('job.php', array('id'=>$jobid));
 });
 
+$app->get('/applicants/:jobid', function ($jobid) use ($app) {
+	$username = $_SESSION['user'];
+	//if(authenticatePoster($username, $jobid)){
+    	$app->render('applicants.php', array('id'=>$jobid));
+	//}else {
+	//	echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
+	//}
+});
+
+$app->get('/newposting', 'authenticate', function() use ($app){
+	require('lib/database.php');
+	$username = $_SESSION['user'];
+	$sql = "SELECT UStatusID FROM user WHERE UName='$username' ";
+	if( $result = $mysql->query($sql) ){
+		$row = $result->fetch_assoc();
+		$UStatusID = $row['UStatusID'];
+		// check the user's UStatusID, 0=seeker, 1=poster, 2=admin
+		if ($UStatusID == 1) {
+			$app->render('newposting.php');
+		} else if($UStatusID == 1) {
+			echo('Please log in with a poster account to create a new job posting, or upgrade your current account');
+			$app->render('welcome.php');
+		}
+	} else {
+		echo('query error in app->get/account');
+	}
+});
+
+
+
 $app->get('/test', function () use ($app) {
     $app->render('test.php');
 });
@@ -69,6 +112,7 @@ $app->post('/user_update_actions', function () use ($app) {
     $app->render('user_update_actions.php');
 });
 
+<<<<<<< HEAD
 $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
@@ -76,6 +120,9 @@ $app->post('/resume_add_actions', function () use ($app) {
 $app->get('/welcome', function () use ($app) {
     $app->render('welcome.php');
 });
+=======
+
+>>>>>>> 43bc3a1dbc413aae4ae20f03b47820df701d9dba
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
