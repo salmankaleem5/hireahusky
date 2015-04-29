@@ -5,8 +5,10 @@
   <title>HireAHusky</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/welcome.css" type="text/css" />
   <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="http://localhost/hireahusky/lib/script.js"></script>
 </head>
 <body>
 

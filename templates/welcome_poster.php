@@ -3,13 +3,6 @@ include('header.php');
 include('userfns.php');
 include('user_update.php');
 ?>
-
-<html lang = "en">
-	<head>
-	
-		<title>Welcome User!</title>
-		<link rel="stylesheet" href="../css/welcome.css" type="text/css" />
-
 		<!-- function to change between summary tabs -->
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -27,9 +20,6 @@ include('user_update.php');
 				return false;
 			}
 		</script>
-		
-		
-	</head>
 <div id="main" class="row">
 	<div class="page-wrapper">
 		<div class="content-wrapper">

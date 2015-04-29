@@ -25,6 +25,13 @@ if( isset($flash['signup']) ){
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" placeholder="Enter your password">
 			</div>
+			<div class="checkbox">
+				<label><input type="checkbox" name="isPoster" value="true">Check if you are a job poster</label>
+			</div>
+			<div id="signupPosterOptions" class="form-group" style="display:none">
+				<p><input type="text" name="cname" class="form-control" placeholder="Enter your company name"></p>
+				<p><input type="text" name="cposition" class="form-control" placeholder="Enter your company position"></p>
+			</div>
 			<p><input id="signup_button" type="submit" class="btn btn-primary btn-lg btn-block" value="Sign up"></p>
 			<p>Forgot your password?</p>
 		</form>

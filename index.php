@@ -44,18 +44,6 @@ function authenticatePoster($username, $jobid){
 	return 1;
 }
 
-$authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
-	return function () use ($uname){
-		$app = \Slim\Slim::getInstance();
-		if( !isset($_SESSION['user']) ){
-			returntoSession($app);
-		} else if( isset($_SESSION['user']) && $_SESSION['user'] != $uname ){
-			$app->flash('errorMsg', 'Access denied');
-			$app->redirect('http://localhost/hireahusky/');
-		}
-	};
-};
-
 $app->get('/', function () use ($app) {
     $app->render('index.php');
 });
@@ -166,39 +154,6 @@ $app->post('/login', function () use ($app){
 		$app->flash('errorMsg', 'Please enter a username and password');
 		$app->redirect('http://localhost/hireahusky/login');		
 	}
-
-	/*
-	$result = login($username, $password);
-	validate username and password and check if they're in database
-	
-	if($result==2){
-		$errors['username'] = 'Username is not valid';
-		$app->flash('errors',$errors);
-		//$app->redirect('/login');
-		echo('wrong user');
-	}else if ($result ==1){
-		$errors['password'] = 'Password is not valid';
-		$app->flash('errors',$errors);
-		//$app->redirect('/login');
-		echo('wrong password');
-
-	}else{
-		echo('success');
-		$_SESSION['user'] = $username;
-		if( isset($_SESSION['urlRedirect']) ){
-			$tmp = $_SESSION['urlRedirect'];
-			unset($_SESSION['urlRedirect']);
-			$app->redirect($tmp);
-		}
-	}
-	$_SESSION['user'] = $username;
-	if( isset($_SESSION['urlRedirect']) ){
-		$tmp = $_SESSION['urlRedirect'];
-		unset($_SESSION['urlRedirect']);
-		$app->redirect($tmp);
-	}
-	$app->redirect('http://localhost/hireahusky/');
-	*/
 });
 
 $app->get('/signup', function () use ($app){
@@ -212,10 +167,27 @@ $app->post('/signup', function () use ($app){
 	$lname = $app->request()->post('lname');
 	$username = $app->request()->post('username');
 	$password = $app->request()->post('password');
-
+	$isPoster = $app->request()->post('isPoster');
+	$cname = $app->request()->post('cname');
+	$cposition = $app->request()->post('cposition');
+	
+	if( $isPoster != 'true' && !empty($cname) ){  //If user is not a poster but company name is set, reject
+		$app->flash('signup', 'There was an error, please try again');			
+		$app->redirect('http://localhost/hireahusky/signup');		
+	}
+	if( $isPoster == 'true' && empty($cname) ){
+		$app->flash('signup', 'If you are a poster, please enter your company name');			
+		$app->redirect('http://localhost/hireahusky/signup');	
+	}
+	require('lib/database.php');
+	if( !empty($cname) && $result = $mysql->query("SELECT CName FROM company WHERE CName='$cname'") ){
+		$rowCount = $result->num_rows;
+		if( $rowCount < 1 ){
+			$app->flash('signup', "I'm sorry that company doesn't exist in our database");			
+			$app->redirect('http://localhost/hireahusky/signup');	
+		}
+	}
 	if( !empty($email) && !empty($fname) && !empty($lname) && !empty($username) && !empty($password) ){
-		require('lib/database.php');
-
 		$duplicateUNameSql = "SELECT UName FROM user WHERE UName='$username'";
 		if( $result = $mysql->query($duplicateUNameSql) ){
 			$rowCount = $result->num_rows;
@@ -233,9 +205,30 @@ $app->post('/signup', function () use ($app){
 				$app->redirect('http://localhost/hireahusky/signup');				
 			}
 		}
-		
+
 		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email'";
+
+		if( $isPoster == 'true' ){
+			$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1' ";			
+		}
+
 		if( $result = $mysql->query($sql) ){
+			if( $isPoster == 'true' ){
+				$sqlPoster = "INSERT INTO poster SET UName='$username', PPosition='$cposition', PContactEmail='$email', CName='$cname'";
+				if( $result = $mysql->query($sqlPoster) ){
+					$_SESSION['user'] = $username;
+					if( isset($_SESSION['urlRedirect']) ){
+						$tmp = $_SESSION['urlRedirect'];
+						unset($_SESSION['urlRedirect']);
+						$app->redirect($tmp);
+					}
+					$app->redirect('http://localhost/hireahusky/');
+				} else {
+					$app->flash('signup', 'There was an error, please try again');			
+					$app->redirect('http://localhost/hireahusky/signup');
+				}
+			}
+
 			$_SESSION['user'] = $username;
 			if( isset($_SESSION['urlRedirect']) ){
 				$tmp = $_SESSION['urlRedirect'];
@@ -270,17 +263,5 @@ $app->get('/account', 'authenticate', function() use ($app){
 		echo('query error in app->get/account');
 	}
 });
-
-/*$app->get('/account/myresume/:user', $authenticateUser($uname), function($uname) use ($app){
-	
-	Use $uname to get ResumeID of $user in Resume table
-	Use retrieved ResumeID to retrieve education info in Education table
-	Also use ResumeID to retrieve SSkillID in Skillset table. SSkillID corresponds to skills in Skill table
-
-	Pull resume information into editable fields. 
-	 
-	$app->render('resume.php', array('uname'=>$uname));
-});*/
-
 $app->run();
 ?>
