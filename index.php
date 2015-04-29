@@ -28,7 +28,7 @@ function authenticate(){
 	$app = \Slim\Slim::getInstance();
 	if( !isset($_SESSION['user']) ){
 		returntoSession($app);
-	}	
+	}
 }
 
 $authenticateUser = function($uname){ //Make sure logged-in user can only request his own resume, applications, etc
@@ -67,6 +67,10 @@ $app->get('/test', function () use ($app) {
 
 $app->post('/user_update_actions', function () use ($app) {
     $app->render('user_update_actions.php');
+});
+
+$app->post('/resume_add_actions', function () use ($app) {
+    $app->render('resume_add_actions.php');
 });
 
 $app->get('/welcome', function () use ($app) {

@@ -3,7 +3,6 @@ include('header.php');
 include('userfns.php');
 include('user_update.php');
 include('resume_add.php');
-include('education_add.php');
 ?>
 
 <html lang = "en">
@@ -51,10 +50,10 @@ include('education_add.php');
 					<div class="span2">
 						<div class="sidebar-nav">
 							<ul id="welcome-menu" class="nav nav-list">
-								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Account Info</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Jobs</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add Resume</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('AddEducation','menu2');">Add Education</a></li>
+								
+								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Update Account Info</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Applied to Jobs</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add a Resume</a></li>
 								<!-- add more list items like the one above -->
 
 							</ul>
@@ -79,20 +78,12 @@ include('education_add.php');
 					</div>
 					
 					<div id="AddResume" style="display: none;" class="span9 menuItem">
-						<h2>Uploaded Resumes:</h2>
+						<h2>Add Resume:</h2>
 						<?PHP 
 						$uname = $_SESSION['user'];
-						//addResume($uname);
+						addResume($uname);
 						?>
 					</div>
-					<div id="AddEducation" style="display: none;" class="span9 menuItem">
-						<h2>Add Education Profile:</h2>
-						<?PHP 
-						$uname = $_SESSION['user'];
-						addEducation($uname);
-						?>
-					</div>
-					
 					<!-- add more divs like the one above -->
 				</div>
 			</div>
