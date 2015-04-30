@@ -21,6 +21,12 @@ function addResume($uname){
 	}
 	
 	echo "<form action='resume_add_actions' method ='POST'><fieldset>";
+	//begin Resume information------------------------------------------------
+	echo "<br><b><u>Objective Profile</u></b><br>";
+	echo "<br>Statement: <input type='text' name='objective'><br>
+	<br>Salary Minimum*: <input type='text' name='salarymin'><br><br>";
+		
+	//end Resume information-------------------------------------------------
 	//DEGREE INPUT 1
 	echo "<b><u>Education Field 1</u></b><br>";
 	//Degree Drop Down
@@ -91,12 +97,56 @@ function addResume($uname){
 			}
 	echo"</select>";
 	
-	echo 
-	"<br><br>GPA*: <input type='text' name='EGPA2'><br>
+	echo "<br><br>GPA*: <input type='text' name='EGPA2'><br>
 	<br>Start Date (MM/DD/YYYY)*: <input type='text' name='EstartDate2'><br>
-	<br>Graduation Date (MM/DD/YYYY)*: <input type='text' name='EGradDate2'><br>
-	";
+	<br>Graduation Date (MM/DD/YYYY)*: <input type='text' name='EGradDate2'><br>";
 	//end of Degree Input 2
+	//begin prior jobs profile 1------------------------------------------------
+	echo "<br><b><u>Prior Job Field 1</u></b><br>";
+	echo "<br>Company Name*: <input type='text' name='pjcompany1'><br>
+	<br>Job Title*: <input type='text' name='pjtitle1'><br>
+	<br>Duties*: <input type='text' name='pjduties1'><br>
+	<br>City*: <input type='text' name='pjcity1'><br>";
+	$pj1state_query= "SELECT StateID,StateName FROM state";
+	$pj1state_result = $mysql->query($pj1state_query);
+	if (!$pj1state_result) {
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	echo "<br>State* <select select name='pjstate1'><option selected='selected' value='0'>Select...</option>";
+	while ( $pj1dbField = $pj1state_result->fetch_assoc() ) {
+    		$key=$pj1dbField['StateName'];
+    		$value=$pj1dbField['StateID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
+	echo "
+	<br><br>Start Date (MM/DD/YYYY)*: <input type='text' name='pjstart1'><br>
+	<br>End Date (MM/DD/YYYY)*: <input type='text' name='pjend1'><br>";
+	
+	//end prior jobs profile 1-------------------------------------------------
+	//begin prior jobs profile 2------------------------------------------------
+	echo "<br><b><u>Prior Job Field 2</u></b><br>";
+	echo "<br>Company Name*: <input type='text' name='pjcompany2'><br>
+	<br>Job Title*: <input type='text' name='pjtitle2'><br>
+	<br>Duties*: <input type='text' name='pjduties2'><br>
+	<br>City*: <input type='text' name='pjcity2'><br>";
+	$pj2state_query= "SELECT StateID,StateName FROM state";
+	$pj2state_result = $mysql->query($pj2state_query);
+	if (!$pj2state_result) {
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	echo "<br>State* <select select name='pjstate2'><option selected='selected' value='0'>Select...</option>";
+	while ( $pj2dbField = $pj2state_result->fetch_assoc() ) {
+    		$key=$pj2dbField['StateName'];
+    		$value=$pj2dbField['StateID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
+	echo "
+	<br><br>Start Date (MM/DD/YYYY)*: <input type='text' name='pjstart2'><br>
+	<br>End Date (MM/DD/YYYY)*: <input type='text' name='pjend2'><br>";
+	
+	//end prior jobs profile 2-------------------------------------------------
 	//begin skill drop downs
 	
 	$skill_query = "SELECT SSkillID, SSkillName FROM skill";
@@ -149,10 +199,10 @@ function addResume($uname){
 			echo "<option value = $value> $key </option>";
 			}
 	echo"</select>";
-	
+	//end skill drop downs
 	
 	//end the form
-	echo '<br><button type="submit" class="btn btn-primary btn-sm">Submit</button>';
+	echo '<br><br><button type="submit" class="btn btn-primary btn-sm">Submit</button>';
 	echo "</fieldset></form>";
 	}
 }
