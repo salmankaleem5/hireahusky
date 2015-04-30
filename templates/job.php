@@ -41,8 +41,8 @@
 			echo "</tr>";
     	}
     	echo "<tr><td></td><td></tr>";//padding for last line to show up
-		echo '</table>
-		<p><a class="btn btn-primary btn-sm" href="#" role="button">Apply Now</a></p>';
+		echo "</table>
+		<p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
 		// check if the user is the poster of this job and present the following buttons. 
 		// use the authenticatePoster(username, jobid) function in the index.php
 		if( isset($_SESSION['user']) ){
