@@ -69,6 +69,11 @@ $app->get('/apply/:jobid', function ($jobid) use ($app) {
     $app->render('apply.php', array('id'=>$jobid));
 });
 
+$app->get('/edit_posting/:jobid', function ($jobid) use ($app) {
+    $app->render('newposting.php', array('id'=>$jobid));
+});
+
+
 $app->get('/applicants/:jobid', function ($jobid) use ($app) {
 	$username = $_SESSION['user'];
 	if(authenticatePoster($username, $jobid)){

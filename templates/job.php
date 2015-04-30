@@ -48,10 +48,11 @@
 		if( isset($_SESSION['user']) ){
     		$username = $_SESSION['user'];
 			if (authenticatePoster($username, $jobid)) {
-				echo '</table>
-				<p><a class="btn btn-primary btn-sm" href="#" role="button">Edit Details</a></p>
-				<p><a class="btn btn-primary btn-sm" href="#" role="button">Mark Position as Filled</a></p>
-				<p><a class="btn btn-primary btn-sm" href="#" role="button">Remove This Post</a></p>';
+				//echo "$jobid";
+				echo "</table>
+				<p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/edit_posting/$jobid' role='button'>Edit Details</a></p>
+				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Mark Position as Filled</a></p>
+				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Remove This Post</a></p>";
 			}
     	}
 	}
