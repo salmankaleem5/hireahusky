@@ -34,11 +34,14 @@ function authenticate(){
 // make sure only posters can view applicants for the jobs they've posted. 
 function authenticatePoster($username, $jobid){
 	require('lib/database.php');
-	$suffix = 'UName='.'"$username"'.'and JobID=$jobid';
-	$sql = "SELECT Uname, JobID FROM postandpay WHERE".$suffix;
-	$result = $mysql->query($sql);    
-	//echo($numApplicants);
-	if(($result == NULL)){
+
+	$suffix = "UName= '$username' AND JobID='$jobid'";
+	$sql = "SELECT Uname FROM postandpay WHERE ".$suffix;
+	$result = $mysql->query($sql); 
+	if (!$result){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}   
+	if( $result->fetch_assoc()==NULL ){
 		return 0;
 	}
 	return 1;
@@ -64,11 +67,11 @@ $app->get('/job/:jobid', function ($jobid) use ($app) {
 
 $app->get('/applicants/:jobid', function ($jobid) use ($app) {
 	$username = $_SESSION['user'];
-	//if(authenticatePoster($username, $jobid)){
+	if(authenticatePoster($username, $jobid)){
     	$app->render('applicants.php', array('id'=>$jobid));
-	//}else {
-	//	echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
-	//}
+	}else {
+		echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
+	}
 });
 
 $app->get('/newposting', 'authenticate', function() use ($app){
@@ -88,12 +91,6 @@ $app->get('/newposting', 'authenticate', function() use ($app){
 	} else {
 		echo('query error in app->get/account');
 	}
-});
-
-
-
-$app->get('/test', function () use ($app) {
-    $app->render('test.php');
 });
 
 $app->post('/user_update_actions', function () use ($app) {
