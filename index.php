@@ -208,11 +208,10 @@ $app->post('/signup', function () use ($app){
 				$app->redirect('http://localhost/hireahusky/signup');				
 			}
 		}
-
+		
 		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1'";
-
 		if( $isPoster == 'true' ){
-			$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1' ";			
+			$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1' ";		
 		}
 
 		if( $result = $mysql->query($sql) ){

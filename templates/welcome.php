@@ -37,8 +37,7 @@ include('resume_add.php');
 			<div id="page-header" class="row-fluid">
 				<div class="span12 hero-unit black">
 					<?PHP 
-						//$uname = 'bfry';
-						$uname = $_SESSION['user'];//doesn't work for some reason
+						$uname = $_SESSION['user'];
 						echo "<h1>Welcome, $uname!</h1>";
 					?>
 					
@@ -63,7 +62,7 @@ include('resume_add.php');
 					<div id="Account" class="span10 menuItem active">
 						<h2>My Account Information:</h2>
 						<?PHP 
-						$uname = $_SESSION['user'];
+						//$uname = $_SESSION['user'];
 						updateInfo($uname);
 						?>
 					</div>
@@ -72,7 +71,7 @@ include('resume_add.php');
 					<div id="Jobs" style="display: none;" class="span9 menuItem">
 						<h2>Jobs I've Applied to:</h2>
 						<?PHP
-						$uname = $_SESSION['user'];
+						//$uname = $_SESSION['user'];
 						 myjobs($uname);
 						?>
 					</div>
@@ -80,7 +79,7 @@ include('resume_add.php');
 					<div id="AddResume" style="display: none;" class="span9 menuItem">
 						<h2>Add Resume:</h2>
 						<?PHP 
-						$uname = $_SESSION['user'];
+						//$uname = $_SESSION['user'];
 						addResume($uname);
 						?>
 					</div>
