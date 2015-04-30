@@ -28,8 +28,8 @@
 	$degarea = $_POST['DegreeArea'];
 	
 	//resumeID is left NULL. It is defined when a resume is made.
-	$edu1_insert = "INSERT INTO education (EducationID, EUniversityID, EGPA, EstartDate,EGradDate,DegreeTypeID, DegreeAreaID) 
-	VALUES ('$EduID','$university','$egpa','$estart','$egrad','$degtype','$degarea')";
+	$edu1_insert = "INSERT INTO education (EducationID, EUniversityID, EGPA, EstartDate,EGradDate,DegreeTypeID, DegreeAreaID,ResumeID) 
+	VALUES ('$EduID','$university','$egpa','$estart','$egrad','$degtype','$degarea',$ResumeID)";
 	//updates Eudcation Profile 2
 	$EduID2 = $lastID+2;
 	
@@ -39,19 +39,50 @@
 	$egrad2 = $_POST['EGradDate2'];
 	$degtype2 = $_POST['DegreeType2'];
 	$degarea2 = $_POST['DegreeArea2'];
-	
-	//resumeID is left NULL. It is defined when a resume is made.
-	$edu2_insert = "INSERT INTO education (EducationID, EUniversityID, EGPA, EstartDate,EGradDate,DegreeTypeID, DegreeAreaID) 
-	VALUES ('$EduID2','$university2','$egpa2','$estart2','$egrad2','$degtype2','$degarea2')";
-	
-					
-	
+	$edu2_insert = "INSERT INTO education (EducationID, EUniversityID, EGPA, EstartDate,EGradDate,DegreeTypeID, DegreeAreaID,ResumeID) 
+	VALUES ('$EduID2','$university2','$egpa2','$estart2','$egrad2','$degtype2','$degarea2','$ResumeID')";
 	if (!mysqli_query($mysql, $edu1_insert)) {
 	    echo "Error updating Education Profile 1" . mysqli_error($mysql);
 	}
 	if (!mysqli_query($mysql, $edu2_insert)) {
 	    echo "Error updating Education Profile 2" . mysqli_error($mysql);
 	}
+	//Skill profile Begin!
+	$skill1 = $_POST['skill1'];
+	if($skill1!=0){
+		$sk1_insert = "INSERT INTO skillset (ResumeID, SSkillID) VALUES ('$ResumeID','$skill1')";
+		if (!mysqli_query($mysql, $sk1_insert)) {
+	    echo "Error updating Skill 1" . mysqli_error($mysql);
+		}
+	}
+	$skill2 = $_POST['skill2'];
+	if($_POST['skill2']!=0){
+		$sk2_insert = "INSERT INTO skillset (ResumeID, SSkillID) VALUES ('$ResumeID','$skill2')";
+		if (!mysqli_query($mysql, $sk2_insert)) {
+	    echo "Error updating Skill 2" . mysqli_error($mysql);
+		}
+	}
+	$skill3 = $_POST['skill3'];
+	if($skill3!=0){
+		$sk3_insert = "INSERT INTO skillset (ResumeID, SSkillID) VALUES ('$ResumeID','$skill3')";
+		if (!mysqli_query($mysql, $sk3_insert)) {
+	    echo "Error updating Skill 3" . mysqli_error($mysql);
+		}
+	}
+	$skill4 = $_POST['skill4'];
+	if($skill4!=0){
+		$sk4_insert = "INSERT INTO skillset (ResumeID, SSkillID) VALUES ('$ResumeID','$skill4')";
+		if (!mysqli_query($mysql, $sk4_insert)) {
+	    echo "Error updating Skill 4" . mysqli_error($mysql);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	echo "Our records have been updated. Thank you.";
 	
 ?>

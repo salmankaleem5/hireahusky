@@ -97,7 +97,58 @@ function addResume($uname){
 	<br>Graduation Date (MM/DD/YYYY)*: <input type='text' name='EGradDate2'><br>
 	";
 	//end of Degree Input 2
+	//begin skill drop downs
 	
+	$skill_query = "SELECT SSkillID, SSkillName FROM skill";
+	$skill_result = $mysql->query($skill_query);
+	if (!$skill_result){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	$skill_query2 = "SELECT SSkillID, SSkillName FROM skill";
+	$skill_result2 = $mysql->query($skill_query2);
+	if (!$skill_result2){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	$skill_query3 = "SELECT SSkillID, SSkillName FROM skill";
+	$skill_result3 = $mysql->query($skill_query3);
+	if (!$skill_result3){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+	$skill_query4 = "SELECT SSkillID, SSkillName FROM skill";
+	$skill_result4 = $mysql->query($skill_query4);
+	if (!$skill_result4){
+    	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
+	}
+
+	echo "<br><b><u>Skill Field</u></b><br>";
+	echo "<br><br>Skill 1* <select select name='skill1'><option selected='selected' value='0'>Select...</option>"; 
+    while ( $dbField4 = $skill_result->fetch_assoc() ) {
+    		$key=$dbField4['SSkillName'];
+    		$value=$dbField4['SSkillID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
+	echo "<br><br>Skill 2* <select select name='skill2'><option selected='selected' value='0'>Select...</option>"; 
+    while ( $dbField4 = $skill_result2->fetch_assoc() ) {
+    		$key=$dbField4['SSkillName'];
+    		$value=$dbField4['SSkillID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
+	echo "<br><br>Skill 3* <select select name='skill3'><option selected='selected' value='0'>Select...</option>"; 
+    while ( $dbField4 = $skill_result3->fetch_assoc() ) {
+    		$key=$dbField4['SSkillName'];
+    		$value=$dbField4['SSkillID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
+	echo "<br><br>Skill 4* <select select name='skill4'><option selected='selected' value='0'>Select...</option>"; 
+    while ( $dbField4 = $skill_result4->fetch_assoc() ) {
+    		$key=$dbField4['SSkillName'];
+    		$value=$dbField4['SSkillID'];
+			echo "<option value = $value> $key </option>";
+			}
+	echo"</select>";
 	
 	
 	//end the form
