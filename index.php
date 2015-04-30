@@ -287,6 +287,7 @@ $app->get('/account/admin_reports', function() use ($app){
 	$jobtitle = $app->request->get('jobtitle');
 	$jobid = $app->request->get('jobid');
 	$university = $app->request->get('university');
+	$skills = $app->request->get('skills');
 
 	if( $reportType != null ){
 		require('lib/database.php');
@@ -325,8 +326,36 @@ $app->get('/account/admin_reports', function() use ($app){
 			$sql = "SELECT u.UFName, u.ULName, u.UStreet1, u.UCity, u.StateID, u.Zipcode, u.UEmail FROM `user` as u INNER JOIN `seeker` as s on u.UName = s.UName INNER JOIN `resume` as r ON r.UName = s.UName INNER JOIN `education` as e ON e.ResumeID = r.ResumeID INNER JOIN `university` as uni ON uni.UniversityID = e.EUniversityID WHERE uni.UniversityName = '$university' AND e.DegreeTypeID = '3'";
 		}
 
+		// Report #8
+		 
+		// http://localhost/hireahusky/account/admin_reports?reportType=jobWithSkills&skills=Java
+		if( $reportType == 'jobWithSkills' && $skills != null ){
+			$skillsArray = explode(",", $skills);
+			$skillsSql = "";
+			foreach( $skillsArray as $k=>$v ){
+				$skillsSql .= "s.SSkillName = '$v'";
+				if( !empty($skillsArray[$k+1]) ){
+					$skillsSql .= " AND ";
+				}
+			}
+			$sql = "SELECT j.JobID, j.JListDate, j.JobTitle FROM `job` as j INNER JOIN `job_skills` as js ON js.JobID = j.JobID INNER JOIN `skill` as s ON js.SSkillID = s.SSkillID WHERE ($skillsSql)";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=seekersWithSkills&skills=Java
+		if( $reportType == 'seekersWithSkills' && $skills != null ){
+			$skillsArray = explode(",", $skills);
+			$skillsSql = "";
+			foreach( $skillsArray as $k=>$v ){
+				$skillsSql .= "sk.SSkillName = '$v'";
+				if( !empty($skillsArray[$k+1]) ){
+					$skillsSql .= " AND ";
+				}
+			}
+			$sql = "SELECT DISTINCT u.UFName, u.ULName, u.UEmail FROM `user` as u INNER JOIN `seeker` as s ON u.UName = s.UName INNER JOIN `resume` as r ON s.UName = r.UName INNER JOIN `skillset` ON r.ResumeID = skillset.ResumeID INNER JOIN `skill` as sk ON sk.SSkillID = skillset.SSkillID WHERE ($skillsSql)";
+		}
+
 		$data = getResult($mysql, $sql);
-		var_dump($data);
+		$app->render('admin_reports_menu.php', array('reportData' => $data));
 	} else {
 		$app->render('admin_reports_menu.php');
 	}
