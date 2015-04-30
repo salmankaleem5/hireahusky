@@ -288,6 +288,8 @@ $app->get('/account/admin_reports', function() use ($app){
 	$jobid = $app->request->get('jobid');
 	$university = $app->request->get('university');
 	$skills = $app->request->get('skills');
+	$pstart = $app->request->get('pstart');
+	$pend = $app->request->get('pend');
 
 	if( $reportType != null ){
 		require('lib/database.php');
@@ -326,7 +328,10 @@ $app->get('/account/admin_reports', function() use ($app){
 			$sql = "SELECT u.UFName, u.ULName, u.UStreet1, u.UCity, u.StateID, u.Zipcode, u.UEmail FROM `user` as u INNER JOIN `seeker` as s on u.UName = s.UName INNER JOIN `resume` as r ON r.UName = s.UName INNER JOIN `education` as e ON e.ResumeID = r.ResumeID INNER JOIN `university` as uni ON uni.UniversityID = e.EUniversityID WHERE uni.UniversityName = '$university' AND e.DegreeTypeID = '3'";
 		}
 
-		// Report #8
+		// http://localhost/hireahusky/account/admin_reports?reportType=payment&pstart=1/5/2001&pend=1/7/2001
+		if( $reportType == 'payment' && $pstart != null && $pend != null ){
+			$sql = "SELECT p.PaymentID, p.PAmount, p.PStatusID, p.PDate FROM `payment` AS p INNER JOIN `postandpay` AS pap ON  p.PaymentID = pap.PaymentID INNER JOIN `job` AS j ON pap.JobID = j.JobID WHERE j.JListDate BETWEEN '$pstart' AND '$pend'";
+		}
 		 
 		// http://localhost/hireahusky/account/admin_reports?reportType=jobWithSkills&skills=Java
 		if( $reportType == 'jobWithSkills' && $skills != null ){

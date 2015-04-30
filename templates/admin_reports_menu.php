@@ -40,6 +40,13 @@ if( ($reportData = $this->data['reportData']) == null ){
 			<input type="text" name="jobid" placeholder="Enter a job id">
 			<button class="jobSeekers" id="input[name='jobid']">Go</button>
 		</div>
+
+		<div class="form-group">
+			<p>Payments between date range:</p>
+			<input type="text" name="pstart" placeholder="Enter a start date">
+			<input type="text" name="pend" placeholder="Enter an end date">
+			<button class="payment" id="input[name='pstart'],input[name='pend']">Go</button>
+		</div>
 	
 		<div class="form-group">
 			<p>Seekers with bachelor's degrees from:</p>
