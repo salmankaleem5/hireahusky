@@ -197,7 +197,7 @@ $app->post('/signup', function () use ($app){
 			}
 		}
 
-		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email'";
+		$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1'";
 
 		if( $isPoster == 'true' ){
 			$sql = "INSERT INTO user SET UName='$username', UPasswd='$password', UFName='$fname', ULName='$lname', UEmail='$email', UStatusID='1' ";			
@@ -249,10 +249,76 @@ $app->get('/account', 'authenticate', function() use ($app){
 			$app->render('welcome.php');
 		} else if($UStatusID == 1) {
 			$app->render('welcome_poster.php');
+		} else if( $UStatusID == 2 ){
+			$app->render('welcome_admin.php');
 		}
 	} else {
 		echo('query error in app->get/account');
 	}
 });
+
+function getResult( $mysql, $query ){
+	if( $result = $mysql->query($query) ){
+		$rows = $result->fetch_all(MYSQLI_ASSOC);
+		return $rows;
+	}
+	return false;
+}
+
+$app->get('/account/admin_reports', function() use ($app){
+	$reportType = $app->request->get('reportType');
+	$lname = $app->request->get('lname');
+	$cname = $app->request->get('cname');
+	$dstart = $app->request->get('start');
+	$dend = $app->request->get('end');
+	$salary = $app->request->get('salary');
+	$jobtitle = $app->request->get('jobtitle');
+	$jobid = $app->request->get('jobid');
+	$university = $app->request->get('university');
+
+	if( $reportType != null ){
+		require('lib/database.php');
+		// http://localhost/hireahusky/account/admin_reports?reportType=summary
+		if( $reportType == 'summary' ){
+			$sql = "SELECT u.UFName, u.ULName, u.UStreet1, u.UCity, u.StateID, u.Zipcode FROM `user` as u INNER JOIN `seeker` as s ON u.UName = s.UName ORDER BY u.StateID ";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=seeker&lname=Bailey
+		if( $reportType == 'seeker' && $lname != null ){
+			$sql = "Select u.ULName,u.UFName,j.cName,j.JobId,j.JListDate,j.JobTitle From Seeker as s Inner Join User as u on s.UName = u.UName Inner Join applies as a on a.UName = u.UName Inner Join Job as j on j.JobID = a.JobID Where u.ULName = '$lname'";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=company&cname=ATS
+		if( $reportType == 'company' && $cname != null ){
+			$sql = "SELECT j.JobID, j.JListDate, j.JobTitle, j.JFillStatus FROM `company` as c INNER JOIN `job` as j ON c.CName = j.CName WHERE c.CName = '$cname' ORDER BY j.JobTitle";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=date&start=1/5/2001&end=1/7/2001
+		if( $reportType == 'date' && $dstart != null && $dend != null ){
+			$sql = "SELECT CName, JListDate, JobID, JobTitle FROM `job` WHERE JListDate BETWEEN '$dstart' AND '$dend'";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=jobSal&salary=40000&jobtitle=Teacher
+		if( $reportType == 'jobSal' && $salary != null && $jobtitle != null ){
+			$sql = "SELECT JobID, JListDate, CName, JLowRange, JHighRange FROM `job` WHERE JLowRange >= '$salary' AND JobTitle = '$jobtitle' ";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=jobSeekers&jobid=1
+		if( $reportType == 'jobSeekers' && $jobid != null ){
+			$sql = "SELECT u.UFName, u.ULName, u.UEmail FROM `user` as u INNER JOIN `seeker` as s ON u.UName = s.UName INNER JOIN `applies` as a ON a.UName = s.UName WHERE a.JobID = '$jobid'";
+		}
+
+		// http://localhost/hireahusky/account/admin_reports?reportType=uniSeekers&university=Georgia%20Institute%20of%20Technology || Returns nothing because the ebaily apparently got his degree from GIT but still has a High School Diploma. Team 3 sucks
+		if( $reportType == 'uniSeekers' && $university != null ){
+			$sql = "SELECT u.UFName, u.ULName, u.UStreet1, u.UCity, u.StateID, u.Zipcode, u.UEmail FROM `user` as u INNER JOIN `seeker` as s on u.UName = s.UName INNER JOIN `resume` as r ON r.UName = s.UName INNER JOIN `education` as e ON e.ResumeID = r.ResumeID INNER JOIN `university` as uni ON uni.UniversityID = e.EUniversityID WHERE uni.UniversityName = '$university' AND e.DegreeTypeID = '3'";
+		}
+
+		$data = getResult($mysql, $sql);
+		var_dump($data);
+	} else {
+		$app->render('admin_reports_menu.php');
+	}
+});
+
 $app->run();
 ?>
