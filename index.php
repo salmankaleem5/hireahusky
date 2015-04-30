@@ -100,17 +100,11 @@ $app->post('/user_update_actions', function () use ($app) {
     $app->render('user_update_actions.php');
 });
 
-<<<<<<< HEAD
 $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
 
-$app->get('/welcome', function () use ($app) {
-    $app->render('welcome.php');
-});
-=======
 
->>>>>>> 43bc3a1dbc413aae4ae20f03b47820df701d9dba
 //------------------------------------------------------
 $app->get('/logout', function () use ($app){
 	unset($_SESSION['user']);
