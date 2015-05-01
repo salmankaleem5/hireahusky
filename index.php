@@ -70,7 +70,12 @@ $app->get('/apply/:jobid', function ($jobid) use ($app) {
 });
 
 $app->get('/edit_posting/:jobid', function ($jobid) use ($app) {
-    $app->render('newposting.php', array('id'=>$jobid));
+	$username = $_SESSION['user'];
+	if(authenticatePoster($username, $jobid)){
+    	$app->render('newposting.php', array('id'=>$jobid));
+	}else {
+		echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
+	}
 });
 
 
@@ -119,8 +124,13 @@ $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
 
+
 $app->post('/resume_edit/resume_edit_actions', function () use ($app) {
     $app->render('resume_edit_actions.php');
+
+$app->post('/edit_job_actions', function () use ($app) {
+    $app->render('edit_job_actions.php');
+
 });
 
 $app->post('/apply/apply_actions', function () use ($app) {
