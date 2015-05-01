@@ -22,12 +22,12 @@ $mysql = $GLOBALS['mysql'];
 	if (!$res_result) {
     	throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 	}
-	echo"<div class='span12 hero-unit black'><h1>Application</h1></div>";
+	echo"<div class='span12 hero-unit black'><h1>Choose A Resume</h1></div>";
 	
 	
-	echo "<form action='apply_actions' method ='POST'><fieldset>";
+	echo "<br><form action='apply_actions' method ='POST'><fieldset>";
 	
-	echo "Choose a resume*: <select style padding='50px' name='ResumeID'><option selected='selected' value='0'>Select...</option>";
+	echo "<select style padding='50px' name='ResumeID'><option selected='selected' value='0'>Select...</option>";
 	
     while ( $dbField = $res_result->fetch_assoc() ) {
 		$key=$dbField['RObjective'];
@@ -37,7 +37,7 @@ $mysql = $GLOBALS['mysql'];
 	
 	echo "</select><br><br>";
 	
-	echo "Applying to JobID: <input type='text' name='jobid' value='$jobid' readonly><br>";
+	echo "<input type='hidden' name='jobid' value='$jobid'>";
   	
 	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">Submit</button></td>
 	</p></tr></table>';

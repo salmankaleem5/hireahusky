@@ -14,14 +14,14 @@ function myjobs($uname){
 		 * NOTE!! job.JobID is necessary as an ambiguity error is triggered
 		 * since there is a JobID column in both tables (I think this is the reason)
 		 */
-		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,job.JobID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = $uname";
+		$query = "SELECT DateApplied, JobTitle,CName,JCity,StateID,job.JobID,applies.ApplicationID FROM applies INNER JOIN job on applies.JobID=job.JobID WHERE UName = $uname";
 		$result = $mysql->query($query);
 		if (!$result) {
     		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
-		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+		echo "<table class='table table-striped table-hover' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
         <tr>
         <th>Application Date</th>
@@ -29,6 +29,7 @@ function myjobs($uname){
         <th>Company Name</th>
         <th>City</th>
         <th>State</th>
+        <th></th>
         </tr>
         </thead>
         <tbody>";
@@ -55,9 +56,9 @@ function myresumes($uname){
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
-		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+		echo "<table class='table table-striped table-hover' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
-        <tr><th>Resume</th><th>Objective</th></tr>
+        <tr><th>Resume</th><th>Objective</th><th></th></tr>
         </thead>
         <tbody>";
 		//makes the remaining table body from the query results and categorizes by the field names
@@ -90,7 +91,7 @@ function myposts($uname){
 		}
 		print $result->num_rows." result(s) found...";
 		//we define the table header
-		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
+		echo "<table class='table table-striped table-hover' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
         <tr>
         <th>Date Listed</th>

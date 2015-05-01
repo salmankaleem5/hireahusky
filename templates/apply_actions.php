@@ -12,7 +12,7 @@
 	$year = $date['year'];
 	$fulldate = "$month/$day/$year";
 	
-	$uname = '"'.$uname.'"';//adds quotes to variable $uname
+	$uname = $uname;//adds quotes to variable $uname
 	$mysql = $GLOBALS['mysql'];//needs to be here to work for some reason
 	if (!$mysql) {
     	die("Connection failed: " . mysqli_connect_error());

@@ -84,6 +84,7 @@ include('resume_add.php');
 						addResume($uname);
 						?>
 					</div>
+					
 					<div id="Resumes" style="display: none;" class="span9 menuItem">
 						<h2>My Resumes:</h2>
 						<?PHP 

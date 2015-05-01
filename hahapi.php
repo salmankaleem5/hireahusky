@@ -11,7 +11,7 @@
 					//echo '<td><a href="http://localhost/hireahusky/view_applicants/'.$dbField["JobID"].'">'.$dbField[$fields[$i]].'</a></td>';
 					echo '<td><a href="http://localhost/hireahusky/applicants/'.$dbField["JobID"].'">view applicants</a></td>';
 				}else {
-					echo '<td>'.$dbField[$fields[$i]].'</td>';	
+					echo '<td>'.$dbField[$fields[$i]].'</td>';
 				}
 			}
 			echo "</tr>";
@@ -37,6 +37,7 @@
 		
 		//html for generating table header the way we want
 		while ( $dbField = $dbResults->fetch_assoc() ) {
+			$applicationID= $dbField['ApplicationID'];//for delete
 			echo "<tr>";
 			for ($i = 0; $i < count($fields); $i++) {
 				if( $i == 0 ){
@@ -45,7 +46,10 @@
 					echo '<td>'.$dbField[$fields[$i]].'</td>';	
 				}
 			}
-			echo "</tr>";
+			//delete button code
+			echo "<td><form action='apply_remove_actions' method ='POST'><fieldset>
+				      <input type='hidden' name='applicationID' value='$applicationID'>
+					  <button type='submit' class='btn btn-primary btn-sm'>WITHDRAW</button></form></td></tr>";
 		}
 	}
 	function makeResumeTable($dbResults,$fields){
@@ -53,6 +57,7 @@
 		//html for generating table header the way we want
 		$j=0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
+			$resID= $dbField['ResumeID'];//for delete
 			echo "<tr>";
 			$j = $j+1;
 			for ($i = 0; $i < count($fields); $i++) {
@@ -64,7 +69,10 @@
 					echo '<td>'.$dbField[$fields[$i]].'</td>';	
 				}
 			}
-			echo "</tr>";
+			//delete button code
+			echo "<td><form action='resume_remove_actions' method ='POST'><fieldset>
+				      <input type='hidden' name='resumeID' value='$resID'>
+					  <button type='submit' class='btn btn-primary btn-sm'>REMOVE</button></form></td></tr>";
 		}
 	}
 	//need this to generate state abbreviations for representation in editing pages when DB gives a stateid

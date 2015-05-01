@@ -124,6 +124,14 @@ $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
 
+$app->post('/resume_remove_actions', function () use ($app) {
+    $app->render('resume_remove_actions.php');
+});
+
+$app->post('/apply_remove_actions', function () use ($app) {
+    $app->render('apply_remove_actions.php');
+});
+
 
 $app->post('/resume_edit/resume_edit_actions', function () use ($app) {
     $app->render('resume_edit_actions.php');

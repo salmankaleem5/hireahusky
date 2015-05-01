@@ -15,7 +15,7 @@ function updateInfo($uname){
 	}
 	$dbField = $result->fetch_assoc();
 	$presentUName = $dbField['UName'];
-	echo "<br><p>Username : <b>$presentUName</b></p>";
+	//echo "<br><p>Username : <b>$presentUName</b></p>";
 	
 	$stateprep = $dbField['StateName'];
 	
@@ -67,8 +67,8 @@ function updateInfo($uname){
 	Website:
 	<br><input type='text' name='UHomePage' value='".$dbField['UHomePage']."'><br>";
 
-	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">Submit</button></td>
-	<td><button type="reset" class="btn btn-primary btn-sm">Reset</button></p></td> </tr></table>';
+	echo '<table><tr><p><td style="width: 200px"><button type="submit" class="btn btn-primary btn-sm">UPDATE</button></td>
+	<td></p></td> </tr></table>';
 
 	echo "</fieldset></form>";
 	}
