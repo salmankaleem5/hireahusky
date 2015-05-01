@@ -70,7 +70,12 @@ $app->get('/apply/:jobid', function ($jobid) use ($app) {
 });
 
 $app->get('/edit_posting/:jobid', function ($jobid) use ($app) {
-    $app->render('newposting.php', array('id'=>$jobid));
+	$username = $_SESSION['user'];
+	if(authenticatePoster($username, $jobid)){
+    	$app->render('newposting.php', array('id'=>$jobid));
+	}else {
+		echo ('you are not authorized to view this page. Please sign in with a Job Poster account');
+	}
 });
 
 
