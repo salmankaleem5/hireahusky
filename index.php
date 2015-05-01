@@ -115,6 +115,10 @@ $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
 });
 
+$app->post('/edit_job_actions', function () use ($app) {
+    $app->render('edit_job_actions.php');
+});
+
 $app->post('/apply/apply_actions', function () use ($app) {
     $app->render('apply_actions.php');
 });

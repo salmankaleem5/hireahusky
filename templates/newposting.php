@@ -8,28 +8,16 @@
 		$jobid = $id;
 	}
 	if (isset($mysql)) {
-		//structure the query based on defined variables
-		if(isset($jobid)){
-			$suffix = " WHERE JobID="."$jobid";
-			$query = "SELECT UName, DateApplied FROM applies".$suffix;
-			$result = $mysql->query($query);
-			if (!$result) {
-    			throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-			}
-		    if( isset($_SESSION['user']) ){
-		    	$user = $_SESSION['user'];
-				addResume($user, $jobid);
-		    }
-		}
-		else{
-			print $jobid." is not a valid Job ID.";
-		}		
+	    if( isset($_SESSION['user']) ){
+	    	$user = $_SESSION['user'];
+			editPost($user, $jobid);
+	    }
 	}
 	else {
 		print "ERROR: Database NOT Found ";
 	}
 	
-function addResume($uname, $jobid){
+function editPost($uname, $jobid){
 	$uname = '"'.$uname.'"';//adds quotes to variable $uname
 	$mysql = $GLOBALS['mysql'];//needs to be here to work for some reason
 	if (isset($mysql)) {
