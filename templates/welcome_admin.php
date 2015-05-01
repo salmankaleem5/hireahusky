@@ -2,6 +2,7 @@
 include('header.php');
 include('userfns.php');
 include('user_update.php');
+include('resume_add.php');
 ?>
 		<!-- function to change between summary tabs -->
 		<script type="text/javascript">
@@ -28,7 +29,7 @@ include('user_update.php');
 					<?PHP 
 						//$uname = 'bfry';
 						$uname = $_SESSION['user'];//doesn't work for some reason
-						echo "<h1>Welcome, $uname!</h1>";
+						echo "<h1>Welcome, $uname! [ADMIN]</h1>";
 					?>
 					
 				</div>
@@ -39,9 +40,10 @@ include('user_update.php');
 					<div class="span2">
 						<div class="sidebar-nav">
 							<ul id="welcome-menu" class="nav nav-list">
-								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Account Info</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Jobs</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Resume','menu2');">Resume</a></li>
+								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Update Account Info</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">My Applications</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Resume','menu2');">My Resumes</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add Resume</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('Posted','menu2');">Jobs I've Posted</a></li> 
 
 								<!-- add more list items like the one above -->
@@ -66,9 +68,14 @@ include('user_update.php');
 						 myjobs($uname);
 						?>
 					</div>
-					
+					<div id="AddResume" style="display: none;" class="span9 menuItem">
+						<h2>Add a Resume:</h2>
+						<?PHP 
+						addResume($uname);
+						?>
+					</div>
 					<div id="Resume" style="display: none;" class="span9 menuItem">
-						<h2>Uploaded Resumes:</h2>
+						<h2>My Resumes:</h2>
 						<?PHP 
 						$uname = $_SESSION['user'];
 						myresumes($uname);

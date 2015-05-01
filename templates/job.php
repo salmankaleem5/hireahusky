@@ -41,8 +41,7 @@
 			echo "</tr>";
     	}
     	echo "<tr><td></td><td></tr>";//padding for last line to show up
-		echo "</table>
-		<p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
+		//echo "</table><p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
 		// check if the user is the poster of this job and present the following buttons. 
 		// use the authenticatePoster(username, jobid) function in the index.php
 		if( isset($_SESSION['user']) ){
@@ -53,6 +52,10 @@
 				<p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/edit_posting/$jobid' role='button'>Edit Details</a></p>
 				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Mark Position as Filled</a></p>
 				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Remove This Post</a></p>";
+			}
+			else{
+				echo "</table><p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
+	
 			}
     	}
 	}

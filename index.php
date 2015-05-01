@@ -127,7 +127,7 @@ $app->post('/resume_add_actions', function () use ($app) {
 
 $app->post('/resume_edit/resume_edit_actions', function () use ($app) {
     $app->render('resume_edit_actions.php');
-
+});
 $app->post('/edit_job_actions', function () use ($app) {
     $app->render('edit_job_actions.php');
 

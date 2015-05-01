@@ -28,7 +28,7 @@ include('user_update.php');
 					<?PHP 
 						//$uname = 'bfry';
 						$uname = $_SESSION['user'];//doesn't work for some reason
-						echo "<h1>Welcome, $uname!</h1>";
+						echo "<h1>Welcome, $uname! [POSTER]</h1>";
 					?>
 					
 				</div>
@@ -40,8 +40,6 @@ include('user_update.php');
 						<div class="sidebar-nav">
 							<ul id="welcome-menu" class="nav nav-list">
 								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Account Info</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Jobs</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Resume','menu2');">Resume</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('Posted','menu2');">Jobs I've Posted</a></li> 
 
 								<!-- add more list items like the one above -->
@@ -58,23 +56,6 @@ include('user_update.php');
 						?>
 					</div>
 					
-					
-					<div id="Jobs" style="display: none;" class="span9 menuItem">
-						<h2>Jobs I've Applied to:</h2>
-						<?PHP
-						$uname = $_SESSION['user'];
-						 myjobs($uname);
-						?>
-					</div>
-					
-					<div id="Resume" style="display: none;" class="span9 menuItem">
-						<h2>Uploaded Resumes:</h2>
-						<?PHP 
-						$uname = $_SESSION['user'];
-						myresumes($uname);
-						?>
-					</div>
-										
 					<div id="Posted" style="display: none;" class="span9 menuItem">
 						<h2>Posted Jobs:</h2>
 						<?PHP 

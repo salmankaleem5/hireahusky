@@ -38,7 +38,7 @@ include('resume_add.php');
 				<div class="span12 hero-unit black">
 					<?PHP 
 						$uname = $_SESSION['user'];
-						echo "<h1>Welcome, $uname!</h1>";
+						echo "<h1>Welcome, $uname! [SEEKER]</h1>";
 					?>
 					
 				</div>
@@ -51,9 +51,9 @@ include('resume_add.php');
 							<ul id="welcome-menu" class="nav nav-list">
 								
 								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Update Account Info</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Applied to Jobs</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">My Applications</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('Resumes','menu2');">My Resumes</a></li>
-								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add a Resume</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add Resume</a></li>
 								<!-- add more list items like the one above -->
 
 							</ul>
@@ -78,7 +78,7 @@ include('resume_add.php');
 					</div>
 					
 					<div id="AddResume" style="display: none;" class="span9 menuItem">
-						<h2>Add Resume:</h2>
+						<h2>Add a Resume:</h2>
 						<?PHP 
 						//$uname = $_SESSION['user'];
 						addResume($uname);
