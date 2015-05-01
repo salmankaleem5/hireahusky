@@ -83,6 +83,15 @@ $app->get('/applicants/:jobid', function ($jobid) use ($app) {
 	}
 });
 
+$app->get('/resume_edit/:resumeid', function ($resumeid) use ($app) {
+	if(!isset($username)){
+    	$app->render('resume_edit.php', array('id'=>$resumeid));
+	}
+	else {
+		$app->flash('errorMsg', 'You need to be logged in to view a resume');
+		$app->redirect('http://localhost/hireahusky/login');
+	}});
+
 $app->get('/newposting', 'authenticate', function() use ($app){
 	require('lib/database.php');
 	$username = $_SESSION['user'];
@@ -108,6 +117,10 @@ $app->post('/user_update_actions', function () use ($app) {
 
 $app->post('/resume_add_actions', function () use ($app) {
     $app->render('resume_add_actions.php');
+});
+
+$app->post('/resume_edit/resume_edit_actions', function () use ($app) {
+    $app->render('resume_edit_actions.php');
 });
 
 $app->post('/apply/apply_actions', function () use ($app) {

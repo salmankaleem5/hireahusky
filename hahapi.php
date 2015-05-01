@@ -51,11 +51,15 @@
 	function makeResumeTable($dbResults,$fields){
 		
 		//html for generating table header the way we want
+		$j=0;
 		while ( $dbField = $dbResults->fetch_assoc() ) {
 			echo "<tr>";
+			$j = $j+1;
 			for ($i = 0; $i < count($fields); $i++) {
+				
 				if( $i == 0 ){
-					echo '<td><a href="http://localhost/hireahusky/job/'.$dbField[$fields[$i]].'">Resume'.($i+1).'</a></td>';
+					
+					echo '<td><a href="http://localhost/hireahusky/resume_edit/'.$dbField['ResumeID'].'">Resume '.$j.'</a></td>';
 				} else {
 					echo '<td>'.$dbField[$fields[$i]].'</td>';	
 				}

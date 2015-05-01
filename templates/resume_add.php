@@ -3,6 +3,7 @@ include ('lib/database.php');
 $mysql = $GLOBALS['mysql'];
 
 function addResume($uname){
+	
 	$uname = '"'.$uname.'"';//adds quotes to variable $uname
 	$mysql = $GLOBALS['mysql'];//needs to be here to work for some reason
 	if (isset($mysql)) {

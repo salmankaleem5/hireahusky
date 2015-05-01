@@ -44,11 +44,11 @@ function myjobs($uname){
 function myresumes($uname){
 	$uname = '"'.$uname.'"';
 	$mysql = $GLOBALS['mysql'];
-	$field_array = array( 'ResumeID');
+	$field_array = array( 'ResumeID','RObjective');
 	//standard DB connection
 	if (isset($mysql)) {
 		//structure the query based on defined variables
-		$query = "SELECT ResumeID FROM resume INNER JOIN user on resume.UName=user.UName WHERE user.UName = $uname";
+		$query = "SELECT ResumeID,RObjective FROM resume INNER JOIN user on resume.UName=user.UName WHERE user.UName = $uname";
 		$result = $mysql->query($query);
 		if (!$result) {
     		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
@@ -57,7 +57,7 @@ function myresumes($uname){
 		//we define the table header
 		echo "<table class='table' cellpadding='7' style='border: 1px solid black; border-collapse:collapse;'>
         <thead style='background-color:black; color: white; font-weight:bold; text-align:left;'>
-        <tr><th>Resume</th></tr>
+        <tr><th>Resume</th><th>Objective</th></tr>
         </thead>
         <tbody>";
 		//makes the remaining table body from the query results and categorizes by the field names

@@ -52,6 +52,7 @@ include('resume_add.php');
 								
 								<li id="menu1" class="active"><a href="#" onClick="return changeTab('Account','menu1');">Update Account Info</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('Jobs','menu2');">Applied to Jobs</a></li>
+								<li id="menu2"><a href="#" onClick="return changeTab('Resumes','menu2');">My Resumes</a></li>
 								<li id="menu2"><a href="#" onClick="return changeTab('AddResume','menu2');">Add a Resume</a></li>
 								<!-- add more list items like the one above -->
 
@@ -81,6 +82,13 @@ include('resume_add.php');
 						<?PHP 
 						//$uname = $_SESSION['user'];
 						addResume($uname);
+						?>
+					</div>
+					<div id="Resumes" style="display: none;" class="span9 menuItem">
+						<h2>My Resumes:</h2>
+						<?PHP 
+						//$uname = $_SESSION['user'];
+						myresumes($uname);
 						?>
 					</div>
 					<!-- add more divs like the one above -->
