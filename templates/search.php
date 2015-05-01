@@ -5,7 +5,7 @@
 	
 	if(array_key_exists('jobTitle', $_GET)){
 		$title = $_GET['jobTitle'];
-		$title = '"'.$title.'"';//adds parentheses around the string
+		$title = '"%'.$title.'%"';//adds parentheses around the string
 	}
 	if(array_key_exists('jobLocation', $_GET)){
 		$location = $_GET['jobLocation'];
@@ -29,10 +29,10 @@
 		}
 		else{
 			if($location == '""'){//have a jobtitle but no location
-				$suffix = " WHERE JobTitle="."$title";
+				$suffix = " WHERE JobTitle LIKE "."$title";
 			}
 			else{//have both title and location
-				$suffix = " WHERE JobTitle=".$title."&& JCity =".$location;
+				$suffix = " WHERE JobTitle LIKE ".$title."&& JCity =".$location;
 			}
 		}
 		
@@ -40,7 +40,7 @@
 		$query = "SELECT * FROM job".$suffix;
 		$result = $mysql->query($query);
 		if (!$result) {
-    		throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+    		throw new Exception("Database Error [{$mysql->errno}] {$mysql->error}");
 		}
 		print $result->num_rows." results found...";
 		//we define the table header
