@@ -44,6 +44,18 @@
 		//echo "</table><p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
 		// check if the user is the poster of this job and present the following buttons. 
 		// use the authenticatePoster(username, jobid) function in the index.php
+		$username = $_SESSION['user'];
+		$mysql = $GLOBALS['mysql'];
+		$usertype = "SELECT UStatusID FROM user WHERE UName='$username' ";
+		if( $result = $mysql->query($usertype) ){
+			$dbresult = $result->fetch_assoc();
+			$UStatusID = $dbresult['UStatusID'];
+			if($UStatusID!=1){
+				echo "</table><p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
+	
+			}
+		}
+			
 		if( isset($_SESSION['user']) ){
     		$username = $_SESSION['user'];
 			if (authenticatePoster($username, $jobid)) {
@@ -53,10 +65,7 @@
 				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Mark Position as Filled</a></p>
 				<p><a class='btn btn-primary btn-sm' href='#' role='button'>Remove This Post</a></p>";
 			}
-			else{
-				echo "</table><p><a class='btn btn-primary btn-sm' href='http://localhost/hireahusky/apply/$jobid' role='button'>Apply Now</a></p>";
-	
-			}
+			
     	}
 	}
 	?>
